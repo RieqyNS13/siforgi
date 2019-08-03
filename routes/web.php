@@ -15,8 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/test', function(){
-	$a = \App\Dusun::get();
-	return $a;
+	$kadus = \App\Kadus::get();
+	echo $kadus[$kadus->search(function($item, $key){
+                return $item->name=="Rokhamin";
+
+            })]->id;
 });
 
 Auth::routes();
