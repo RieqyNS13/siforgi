@@ -11,9 +11,9 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('home');
-// });
+Route::get('/', function () {
+    return redirect('home');
+});
 Route::get('/test', function(){
 	$kadus = \App\Kadus::get();
 	echo $kadus[$kadus->search(function($item, $key){
@@ -24,4 +24,4 @@ Route::get('/test', function(){
 
 Auth::routes();
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');
