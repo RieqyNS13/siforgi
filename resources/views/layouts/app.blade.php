@@ -27,7 +27,7 @@
        @yield('content')
     </div>
     
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBjrktenjM6o9bs8dXBW8lPjC9TcYG_hm0"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWObxOTIDZIxVh0rYRFkC_8J_YIfuv7Hw"></script>
 
 </body>
 </html>
