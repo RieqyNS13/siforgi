@@ -18,7 +18,7 @@ Route::get('/carousel', function(){
 	return App\carousel::get();
 });
 Route::get('/dataPenduduk', "BasedGenderController@dataPenduduk");
-
+Route::get('/dataPendudukByGender',"BasedGenderController@dataPendudukByGender");
 Route::get('/test', function(){
 		return App\BasedGender::find(1)->dusun;
 });

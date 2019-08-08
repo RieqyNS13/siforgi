@@ -93,4 +93,25 @@ class BasedGenderController extends Controller
         }
         return $data;
     }
+    public function dataPendudukByGender(){
+        $data = Dusun::with('based_genders')->get();
+        foreach($data as $k=>$v){
+            $total=['L'=>0,'P'=>0];
+            foreach($v->based_genders as $k2=>$v2){
+                if($v2->gender=='L')$total['L']+=$v2->jumlah;
+                else $total['P']+=$v2->jumlah;
+            }
+            $data[$k]->total = $total;
+        }
+        return $data;
+       // $pos = $data->
+        // foreach($data as $k=>$v){
+        //     $total = 0;
+        //     foreach($v->based_genders as $k2=>$v2){
+        //         $total += $v2->jumlah;
+        //     }
+        //     $data[$k]->total = $total;
+        // }
+        // return $data;
+    }
 }

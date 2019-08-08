@@ -107,10 +107,10 @@
           <apexchart type=pie :options="dataPenduduk.chartOptions" :series="dataPenduduk.series"></apexchart>
 
           </v-flex>
-          <!-- <v-flex xs6>
-          <apexchart width="500" type="bar" :options="options" :series="series"></apexchart>
+          <v-flex xs6>
+                <apexchart type=bar :options="dataPendudukbyGender.chartOptions" :series="dataPendudukbyGender.series" />
 
-          </v-flex> -->
+          </v-flex>
         </v-layout>
 
           </v-flex>
@@ -137,6 +137,8 @@
 </template>
 
 <script>
+  import {dataPendudukbyGender} from "../chartOptions/dataPendudukbyGender.js"
+
   export default {
 
     props: {
@@ -159,18 +161,27 @@
             series: [],
             chartOptions: {
               labels: [],
+              chart: {
+                toolbar: {
+                  show: true
+                },
+                zoom: {
+                  enabled: true
+                }
+              },
               responsive: [{
                 breakpoint: 480,
                 options: {
-                  chart: {
-                    width: 200
-                  },
                   legend: {
                     position: 'bottom'
                   }
                 }
               }]
             }
+        },
+        dataPendudukbyGender:{
+          chartOptions:dataPendudukbyGender.chartOptions,
+          series:dataPendudukbyGender.series
         },
         menu2: -1,
         menu1: 0,
@@ -214,13 +225,34 @@
                   this.dataPenduduk.series.push(value.total);
 
                 });
-
                  this.dataPenduduk.chartOptions = {...this.dataPenduduk.chartOptions, ...{
                         labels:labels
                       }
                   }
                 console.log(this.dataPenduduk.chartOptions.labels);
                
+            });
+            axios.get('/dataPendudukByGender').then((response)=>{
+              //console.log(this.dataPendudukByGender);
+              let l=[];
+              let p=[];
+              let categories=[];
+              response.data.forEach((value,key)=>{
+                  l.push(value.total.L);
+                  p.push(value.total.P);
+                  categories.push(value.name);
+              });
+              this.dataPendudukbyGender.series = [
+                {name:'Laki-laki',data:l},
+                {name:'Perempuan',data:p}
+              ];
+               this.dataPendudukbyGender.chartOptions = {...this.dataPendudukbyGender.chartOptions, ...{
+                        xaxis: {
+                          categories: categories,
+                        }
+                      }
+                  }
+              console.log(this.dataPendudukbyGender.series)
             });
         },
         initMap:function(){
