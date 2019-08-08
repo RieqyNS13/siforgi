@@ -77,8 +77,6 @@
         >
 
         <v-flex xs12 v-show="content=='home'">
-          <apexchart width="500" type="bar" :options="options" :series="series"></apexchart>
-
           <v-carousel>
             <v-carousel-item
               v-for="(carousel, i) in carousels"
@@ -102,8 +100,18 @@
               </v-sheet>
             </v-carousel-item>
         </v-carousel>
+  <v-divider></v-divider>
 
+        <v-layout>
+             <v-flex xs6>
+          <apexchart type=pie :options="dataPenduduk.chartOptions" :series="dataPenduduk.series"></apexchart>
 
+          </v-flex>
+          <!-- <v-flex xs6>
+          <apexchart width="500" type="bar" :options="options" :series="series"></apexchart>
+
+          </v-flex> -->
+        </v-layout>
 
           </v-flex>
 
@@ -130,6 +138,7 @@
 
 <script>
   export default {
+
     props: {
       source: String,
       dataDusun: Array,
@@ -146,18 +155,23 @@
     data: function(){
       //name: 'google-map',
       return {
-        options: {
-          chart: {
-            id: 'vuechart-example'
-          },
-          xaxis: {
-            categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
-          }
+        dataPenduduk:{
+            series: [],
+            chartOptions: {
+              labels: [],
+              responsive: [{
+                breakpoint: 480,
+                options: {
+                  chart: {
+                    width: 200
+                  },
+                  legend: {
+                    position: 'bottom'
+                  }
+                }
+              }]
+            }
         },
-        series: [{
-          name: 'series-1',
-          data: [30, 40, 45, 50, 49, 60, 70, 91]
-        }],
         menu2: -1,
         menu1: 0,
         drawer: null,
@@ -191,6 +205,22 @@
             axios.get('/carousel').then((response)=>{
               console.log(response.data);
               this.carousels=response.data;
+            });
+            axios.get('/dataPenduduk').then((response)=>{
+                this.dataPenduduk.series = [];
+                let labels = [];
+                response.data.forEach((value,key)=>{
+                  labels.push(value.name);
+                  this.dataPenduduk.series.push(value.total);
+
+                });
+
+                 this.dataPenduduk.chartOptions = {...this.dataPenduduk.chartOptions, ...{
+                        labels:labels
+                      }
+                  }
+                console.log(this.dataPenduduk.chartOptions.labels);
+               
             });
         },
         initMap:function(){

@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(RukunTetanggaTableSeeder::class);
         $this->call(AgamasTableSeeder::class);
         $this->call(CarouselsTableSeeder::class);
+        $this->call(BasedGendersTableSeeder::class);
     }
 }

@@ -1873,10 +1873,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2043,18 +2057,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     //name: 'google-map',
     return {
-      options: {
-        chart: {
-          id: 'vuechart-example'
-        },
-        xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+      dataPenduduk: {
+        series: [],
+        chartOptions: {
+          labels: [],
+          responsive: [{
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 200
+              },
+              legend: {
+                position: 'bottom'
+              }
+            }
+          }]
         }
       },
-      series: [{
-        name: 'series-1',
-        data: [30, 40, 45, 50, 49, 60, 70, 91]
-      }],
       menu2: -1,
       menu1: 0,
       drawer: null,
@@ -2084,6 +2103,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       axios.get('/carousel').then(function (response) {
         console.log(response.data);
         _this.carousels = response.data;
+      });
+      axios.get('/dataPenduduk').then(function (response) {
+        _this.dataPenduduk.series = [];
+        var labels = [];
+        response.data.forEach(function (value, key) {
+          labels.push(value.name);
+
+          _this.dataPenduduk.series.push(value.total);
+        });
+        _this.dataPenduduk.chartOptions = _objectSpread({}, _this.dataPenduduk.chartOptions, {}, {
+          labels: labels
+        });
+        console.log(_this.dataPenduduk.chartOptions.labels);
       });
     },
     initMap: function initMap() {
@@ -39336,15 +39368,6 @@ var render = function() {
                       attrs: { xs12: "" }
                     },
                     [
-                      _c("apexchart", {
-                        attrs: {
-                          width: "500",
-                          type: "bar",
-                          options: _vm.options,
-                          series: _vm.series
-                        }
-                      }),
-                      _vm._v(" "),
                       _c(
                         "v-carousel",
                         _vm._l(_vm.carousels, function(carousel, i) {
@@ -39397,6 +39420,29 @@ var render = function() {
                             1
                           )
                         }),
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("v-divider"),
+                      _vm._v(" "),
+                      _c(
+                        "v-layout",
+                        [
+                          _c(
+                            "v-flex",
+                            { attrs: { xs6: "" } },
+                            [
+                              _c("apexchart", {
+                                attrs: {
+                                  type: "pie",
+                                  options: _vm.dataPenduduk.chartOptions,
+                                  series: _vm.dataPenduduk.series
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
                         1
                       )
                     ],
