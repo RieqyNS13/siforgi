@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDusunsTable extends Migration
+class CreateAgamasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,11 @@ class CreateDusunsTable extends Migration
      */
     public function up()
     {
-        Schema::create('dusuns', function (Blueprint $table) {
+        Schema::create('agamas', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('kadus_id');
-            $table->unsignedTinyInteger('rw_no');
             $table->string('name');
             $table->text('description')->nullable();
-            $table->text('image')->nullable();
-            $table->decimal('Latitude',10,8);
-            $table->decimal('Longitude',11,8);
             $table->timestamps();
-
-            $table->foreign('kadus_id')->references('id')->on('kaduses')->onDelete('cascade');
         });
     }
 
@@ -35,6 +28,6 @@ class CreateDusunsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dusuns');
+        Schema::dropIfExists('agamas');
     }
 }

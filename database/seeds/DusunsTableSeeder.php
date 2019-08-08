@@ -13,31 +13,31 @@ class DusunsTableSeeder extends Seeder
     {
         $kadus = \App\Kadus::get();
         $data = [
-    		['name'=>'Ampelgading', 'kadus_id'=> $kadus[$kadus->search(function($item, $key){
+    		['name'=>'Ampelgading', 'rw_no'=>6, 'kadus_id'=> $kadus[$kadus->search(function($item, $key){
                 return $item->name=="Sukeri";
 
             })]->id, 'Latitude'=> -7.2268274,'Longitude'=>110.3874583],
-    		['name'=>'Karanglo', 'kadus_id'=>$kadus[$kadus->search(function($item, $key){
+    		['name'=>'Karanglo','rw_no'=>1, 'kadus_id'=>$kadus[$kadus->search(function($item, $key){
                 return $item->name=="Mudriyanyo";
 
             })]->id, 'Latitude'=> -7.2232268,'Longitude'=>110.3991875],
-    		['name'=>'Clowok', 'kadus_id'=>$kadus[$kadus->search(function($item, $key){
+    		['name'=>'Clowok', 'rw_no'=>5, 'kadus_id'=>$kadus[$kadus->search(function($item, $key){
                 return $item->name=="Bambang";
 
             })]->id, 'Latitude'=> -7.2269803,'Longitude'=>110.3946826],
-    		['name'=>'Gelaran', 'kadus_id'=>$kadus[$kadus->search(function($item, $key){
+    		['name'=>'Gelaran','rw_no'=>4, 'kadus_id'=>$kadus[$kadus->search(function($item, $key){
                 return $item->name=="Tauhid";
 
             })]->id, 'Latitude'=> -7.232762,'Longitude'=>110.3884532],
-    		['name'=>'Kenteng', 'kadus_id'=>$kadus[$kadus->search(function($item, $key){
+    		['name'=>'Kenteng', 'rw_no'=>3, 'kadus_id'=>$kadus[$kadus->search(function($item, $key){
                 return $item->name=="Sugeng";
 
             })]->id, 'Latitude'=> -7.2308289,'Longitude'=>110.3939133],
-    		['name'=>'Jurang', 'kadus_id'=>$kadus[$kadus->search(function($item, $key){
+    		['name'=>'Jurang', 'rw_no'=>2, 'kadus_id'=>$kadus[$kadus->search(function($item, $key){
                 return $item->name=="Pramono";
 
             })]->id, 'Latitude'=> -7.2294631,'Longitude'=>110.4001442],
-    		['name'=>'Golak', 'kadus_id'=>$kadus[$kadus->search(function($item, $key){
+    		['name'=>'Golak', 'rw_no'=>7, 'kadus_id'=>$kadus[$kadus->search(function($item, $key){
                 return $item->name=="Rokhamin";
 
             })]->id, 'Latitude'=> -7.2215465,'Longitude'=>110.3902476]

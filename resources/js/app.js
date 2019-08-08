@@ -7,36 +7,15 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+const axios = require('axios');
 
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css'
-import * as VueGoogleMaps from 'vue2-google-maps'
+import VueApexCharts from 'vue-apexcharts'
 
 Vue.use(Vuetify);
-Vue.use(VueGoogleMaps, {
-  load: {
-    key: 'AIzaSyBjrktenjM6o9bs8dXBW8lPjC9TcYG_hm0', //fudanshi.wibu5@gmail.com
-    libraries: 'places', // This is required if you use the Autocomplete plugin
-    // OR: libraries: 'places,drawing'
-    // OR: libraries: 'places,drawing,visualization'
-    // (as you require)
- 
-    //// If you want to set the version, you can do so:
-    // v: '3.26',
-  },
- 
-  //// If you intend to programmatically custom event listener code
-  //// (e.g. `this.$refs.gmap.$on('zoom_changed', someFunc)`)
-  //// instead of going through Vue templates (e.g. `<GmapMap @zoom_changed="someFunc">`)
-  //// you might need to turn this on.
-  // autobindAllEvents: false,
- 
-  //// If you want to manually install components, e.g.
-  //// import {GmapMarker} from 'vue2-google-maps/src/components/marker'
-  //// Vue.component('GmapMarker', GmapMarker)
-  //// then disable the following:
- 	installComponents: true,
-})
+Vue.component('apexchart', VueApexCharts)
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
