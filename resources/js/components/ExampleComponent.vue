@@ -108,10 +108,17 @@
 
           </v-flex>
           <v-flex xs6>
-                <apexchart type=bar :options="dataPendudukbyGender.chartOptions" :series="dataPendudukbyGender.series" />
+                <apexchart type=bar :options="dataByGender.chartOptions" :series="dataByGender.series" />
 
           </v-flex>
+
         </v-layout>
+
+          <v-layout>
+            <v-flex xs6>
+              <apexchart type=bar :options="dataByAgama.chartOptions" :series="dataByAgama.series" />
+            </v-flex>
+          </v-layout>
 
           </v-flex>
 
@@ -137,8 +144,8 @@
 </template>
 
 <script>
-  import {dataPendudukbyGender} from "../chartOptions/dataPendudukbyGender.js"
-
+  import {dataPendudukbyGender} from "../chartOptions/dataPendudukbyGender.js";
+  import {dataPendudukbyAgama} from "../chartOptions/dataPendudukbyAgama.js";
   export default {
 
     props: {
@@ -179,9 +186,13 @@
               }]
             }
         },
-        dataPendudukbyGender:{
+        dataByGender:{
           chartOptions:dataPendudukbyGender.chartOptions,
           series:dataPendudukbyGender.series
+        },
+        dataByAgama:{
+          chartOptions:dataPendudukbyAgama.chartOptions,
+          series:dataPendudukbyAgama.series
         },
         menu2: -1,
         menu1: 0,
@@ -242,17 +253,17 @@
                   p.push(value.total.P);
                   categories.push(value.name);
               });
-              this.dataPendudukbyGender.series = [
+              this.dataByGender.series = [
                 {name:'Laki-laki',data:l},
                 {name:'Perempuan',data:p}
               ];
-               this.dataPendudukbyGender.chartOptions = {...this.dataPendudukbyGender.chartOptions, ...{
+               this.dataByGender.chartOptions = {...this.dataByGender.chartOptions, ...{
                         xaxis: {
                           categories: categories,
                         }
                       }
                   }
-              console.log(this.dataPendudukbyGender.series)
+              console.log(this.dataByGender.series)
             });
         },
         initMap:function(){
