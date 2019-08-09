@@ -15,7 +15,7 @@ Route::get('/', function () {
     return redirect('home');
 });
 Route::get('/carousel', function(){
-	return App\carousel::get();
+	return App\Carousel::get();
 });
 Route::get('/dataPenduduk', "BasedGenderController@dataPenduduk");
 Route::get('/dataPendudukByGender',"BasedGenderController@dataPendudukByGender");
