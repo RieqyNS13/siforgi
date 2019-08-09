@@ -20,7 +20,8 @@ Route::get('/carousel', function(){
 Route::get('/dataPenduduk', "BasedGenderController@dataPenduduk");
 Route::get('/dataPendudukByGender',"BasedGenderController@dataPendudukByGender");
 Route::get('/test', function(){
-		return App\BasedGender::find(1)->dusun;
+	$test = App\Dusun::with('rukun_tetanggas.based_genders')->get();
+	return $test;
 });
 
 Auth::routes();

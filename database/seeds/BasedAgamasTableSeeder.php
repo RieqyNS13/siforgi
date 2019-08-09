@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class BasedGendersTableSeeder extends Seeder
+class BasedAgamasTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,7 +11,8 @@ class BasedGendersTableSeeder extends Seeder
      */
     public function run()
     {
-        $dusuns = [
+    	$agamas = App\Agamas::get();
+       $dusuns = [
         	["name"=>"Karanglo", "data"=>[
         		["rt"=>1, "penduduk"=>['L'=>45, 'P'=>57]],
         		["rt"=>2, "penduduk"=>['L'=>72, 'P'=>70]],
@@ -62,25 +63,5 @@ class BasedGendersTableSeeder extends Seeder
 
 
         ];
-
-       $get=App\Dusun::with('rukun_tetanggas')->get();
-
-       foreach ($dusuns as $key => $value) {
-       		$dusun_index = $get->search(function($item,$key)use($value){
-       			return $item->name==$value['name'];
-       		});
-       		//echo $get[$index]->name."\n";
-       		foreach($value['data'] as $key2 => $value2){
-       			$rt_index = $get[$dusun_index]->rukun_tetanggas->search(function($item, $key)use($value2){
-       				return $item->rt_no==$value2['rt'];
-       			});	
-       			$data = ['rukun_tetangga_id'=>$get[$dusun_index]->rukun_tetanggas[$rt_index]->id, 'gender'=>'L','jumlah'=>$value2['penduduk']['L']];
-       			$data2 = ['rukun_tetangga_id'=>$get[$dusun_index]->rukun_tetanggas[$rt_index]->id, 'gender'=>'P','jumlah'=>$value2['penduduk']['P']];
-       			App\BasedGender::create($data);
-       			App\BasedGender::create($data2);
-       		}	
-       		//$data = ['dusun_id'=>$get[$index]->id,'rukun_tetangga_id'=>]
-       }
     }
-
 }

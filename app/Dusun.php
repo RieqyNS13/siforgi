@@ -8,7 +8,7 @@ class Dusun extends Model
 {
     protected $guarded = ['created_at','updated_at'];
 
-    public function based_genders(){
-    	return $this->hasMany('App\BasedGender');
+    public function rukun_tetanggas(){
+    	return $this->hasMany('App\RukunTetangga');
     }
 }

@@ -15,13 +15,11 @@ class CreateBasedGendersTable extends Migration
     {
         Schema::create('based_genders', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('dusun_id');
             $table->unsignedBigInteger('rukun_tetangga_id');
             $table->enum('gender',['L','P']);
             $table->integer('jumlah');
             $table->timestamps();
 
-            $table->foreign('dusun_id')->references('id')->on('dusuns')->onDelete('cascade');
             $table->foreign('rukun_tetangga_id')->references('id')->on('rukun_tetanggas')->onDelete('cascade');
         });
     }

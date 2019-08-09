@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\BasedGender;
 use App\Dusun;
+use App\RukunTetangga;
 class BasedGenderController extends Controller
 {
     /**
@@ -83,24 +84,25 @@ class BasedGenderController extends Controller
         //
     }
     public function dataPenduduk(){
-        $data = Dusun::with('based_genders')->get();
+        $data = Dusun::with('rukun_tetanggas.based_genders')->get();
         foreach($data as $k=>$v){
-            $total = 0;
-            foreach($v->based_genders as $k2=>$v2){
-                $total += $v2->jumlah;
+            foreach($v->rukun_tetanggas as $k2=>$v2){
+                $data[$k]->rukun_tetanggas[$k2]->total=$v2->based_genders->sum('jumlah');
             }
-            $data[$k]->total = $total;
+            $data[$k]->total=$data[$k]->rukun_tetanggas->sum('total');
         }
         return $data;
     }
     public function dataPendudukByGender(){
-        $data = Dusun::with('based_genders')->get();
+        $data = Dusun::with('rukun_tetanggas.based_genders')->get();
         foreach($data as $k=>$v){
-            $total=['L'=>0,'P'=>0];
-            foreach($v->based_genders as $k2=>$v2){
-                if($v2->gender=='L')$total['L']+=$v2->jumlah;
-                else $total['P']+=$v2->jumlah;
+            $total=['L'=>0,'P'=>0]; 
+
+            foreach($v->rukun_tetanggas as $k2=>$v2){
+                    $total['L'] += $v2->based_genders[0]->jumlah;
+                    $total['P'] += $v2->based_genders[1]->jumlah;
             }
+
             $data[$k]->total = $total;
         }
         return $data;
