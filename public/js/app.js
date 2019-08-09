@@ -2165,6 +2165,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         });
         console.log(_this.dataByGender.series);
       });
+      axios.get('/dataPendudukByAgama').then(function (response) {
+        _this.dataByAgama.series = [];
+        var data_series = [];
+        var categories = [];
+        response.data.forEach(function (value, key) {
+          if (value.total > 0) {
+            data_series.push(value.total);
+            categories.push(value.name);
+          }
+        }); //console.log(categories);  
+
+        _this.dataByAgama.series.push({
+          data: data_series
+        });
+
+        _this.dataByAgama.chartOptions = _objectSpread({}, _this.dataByAgama.chartOptions, {}, {
+          xaxis: {
+            categories: categories
+          }
+        });
+      });
     },
     initMap: function initMap() {
       console.log(this.dataDusun);

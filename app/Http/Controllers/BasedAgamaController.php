@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Agama;
 class BasedAgamaController extends Controller
 {
     /**
@@ -81,7 +81,11 @@ class BasedAgamaController extends Controller
     {
         //
     }
-    public function dataPendudukByGender(){
-        
+    public function dataPendudukByAgama(){
+        $test = Agama::with('based_agamas')->get();
+        foreach($test as $k=>$v){
+            $test[$k]->total = $v->based_agamas->sum('jumlah');
+        }
+        return $test;
     }
 }

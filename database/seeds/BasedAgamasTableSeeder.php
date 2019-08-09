@@ -128,7 +128,7 @@ class BasedAgamasTableSeeder extends Seeder
         		]],
         		["rt"=>4, "penduduk"=>[
         			['agama'=>"Islam","data"=>['L'=>66, 'P'=>59]],
-        			['agama'=>"Kristen","data"=>['L'=>0, 'P'=>0]],
+        			['agama'=>"Kristen","data"=>['L'=>2, 'P'=>2]],
         			['agama'=>"Katholik","data"=>['L'=>0, 'P'=>0]],
         			['agama'=>"Hindu","data"=>['L'=>0, 'P'=>0]],
         			['agama'=>"Budha","data"=>['L'=>0, 'P'=>0]]
@@ -238,7 +238,7 @@ class BasedAgamasTableSeeder extends Seeder
         			['agama'=>"Kristen","data"=>['L'=>2, 'P'=>2]],
         			['agama'=>"Katholik","data"=>['L'=>5, 'P'=>5]],
         			['agama'=>"Hindu","data"=>['L'=>0, 'P'=>0]],
-        			['agama'=>"Budha","data"=>['L'=>2, 'P'=>5]]
+        			['agama'=>"Budha","data"=>['L'=>0, 'P'=>0]]
         		]],
         		["rt"=>2, "penduduk"=>[
         			['agama'=>"Islam","data"=>['L'=>82, 'P'=>81]],

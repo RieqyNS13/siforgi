@@ -265,6 +265,27 @@
                   }
               console.log(this.dataByGender.series)
             });
+
+            axios.get('/dataPendudukByAgama').then((response)=>{
+                 this.dataByAgama.series = [];
+                 let data_series=[];
+                let categories=[];
+                response.data.forEach((value,key)=>{
+                    if(value.total>0){
+                      data_series.push(value.total);
+                      categories.push(value.name);
+                    }
+                });
+                //console.log(categories);  
+                this.dataByAgama.series.push({data:data_series});
+                this.dataByAgama.chartOptions = {...this.dataByAgama.chartOptions, ...{
+                        xaxis: {
+                          categories: categories,
+                        }
+                      }
+                  }
+
+            });
         },
         initMap:function(){
           console.log(this.dataDusun);     

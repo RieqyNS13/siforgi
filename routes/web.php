@@ -19,9 +19,9 @@ Route::get('/carousel', function(){
 });
 Route::get('/dataPenduduk', "BasedGenderController@dataPenduduk");
 Route::get('/dataPendudukByGender',"BasedGenderController@dataPendudukByGender");
+Route::get('/dataPendudukByAgama', "BasedAgamaController@dataPendudukByAgama");
 Route::get('/test', function(){
-	$test = App\Dusun::with('rukun_tetanggas.based_genders')->get();
-	return $test;
+	
 });
 
 Auth::routes();
