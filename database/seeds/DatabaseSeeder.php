@@ -19,5 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CarouselsTableSeeder::class);
         $this->call(BasedGendersTableSeeder::class);
         $this->call(BasedAgamasTableSeeder::class);
+        $this->call(GoldarsTableSeeder::class);
+        $this->call(BasedGoldarTableSeeder::class);
     }
 }

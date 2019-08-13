@@ -70,6 +70,7 @@ class BasedGendersTableSeeder extends Seeder
        			return $item->name==$value['name'];
        		});
        		//echo $get[$index]->name."\n";
+
        		foreach($value['data'] as $key2 => $value2){
        			$rt_index = $get[$dusun_index]->rukun_tetanggas->search(function($item, $key)use($value2){
        				return $item->rt_no==$value2['rt'];

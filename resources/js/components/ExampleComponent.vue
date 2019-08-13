@@ -113,11 +113,15 @@
           </v-flex>
 
         </v-layout>
-
+ <!-- <apexchart type=bar height=350 :options="chartOptions" :series="series" / -->
           <v-layout>
             <v-flex xs6>
               <apexchart type=bar :options="dataByAgama.chartOptions" :series="dataByAgama.series" />
             </v-flex>
+             <v-flex xs6>
+                <apexchart type=bar :options="dataByGoldar.chartOptions" :series="dataByGoldar.series" />
+
+          </v-flex>
           </v-layout>
 
           </v-flex>
@@ -146,6 +150,8 @@
 <script>
   import {dataPendudukbyGender} from "../chartOptions/dataPendudukbyGender.js";
   import {dataPendudukbyAgama} from "../chartOptions/dataPendudukbyAgama.js";
+  import {dataPendudukByGoldar} from "../chartOptions/dataPendudukByGoldar.js";
+
   export default {
 
     props: {
@@ -193,6 +199,10 @@
         dataByAgama:{
           chartOptions:dataPendudukbyAgama.chartOptions,
           series:dataPendudukbyAgama.series
+        },
+        dataByGoldar:{
+          chartOptions:dataPendudukByGoldar.chartOptions,
+          series:dataPendudukByGoldar.series
         },
         menu2: -1,
         menu1: 0,
@@ -279,6 +289,32 @@
                 //console.log(categories);  
                 this.dataByAgama.series.push({data:data_series});
                 this.dataByAgama.chartOptions = {...this.dataByAgama.chartOptions, ...{
+                        xaxis: {
+                          categories: categories,
+                        }
+                      }
+                  }
+
+            });
+            axios.get('/dataPendudukByGoldar').then((response)=>{
+              let series = {L:[], P:[]};
+              let categories = [];
+
+              response.data.forEach((value,key)=>{
+                  if(value.jumlah.L>0 && value.jumlah.P>0 && value.name!='-'){
+                     categories.push(value.name);
+                     series.L.push(value.jumlah.L);
+                     series.P.push(value.jumlah.P);
+                  }
+                });
+              //series.L.pop();series.P.pop();
+
+              this.dataByGoldar.series = [
+                {name:'Laki-laki', data:series.L},
+                {name:'Perempuan', data:series.P}
+              ];
+
+               this.dataByGoldar.chartOptions = {...this.dataByGoldar.chartOptions, ...{
                         xaxis: {
                           categories: categories,
                         }

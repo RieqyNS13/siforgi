@@ -1873,6 +1873,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _chartOptions_dataPendudukbyGender_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../chartOptions/dataPendudukbyGender.js */ "./resources/js/chartOptions/dataPendudukbyGender.js");
 /* harmony import */ var _chartOptions_dataPendudukbyAgama_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../chartOptions/dataPendudukbyAgama.js */ "./resources/js/chartOptions/dataPendudukbyAgama.js");
+/* harmony import */ var _chartOptions_dataPendudukByGoldar_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../chartOptions/dataPendudukByGoldar.js */ "./resources/js/chartOptions/dataPendudukByGoldar.js");
 
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -2030,6 +2031,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2097,6 +2103,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       dataByAgama: {
         chartOptions: _chartOptions_dataPendudukbyAgama_js__WEBPACK_IMPORTED_MODULE_2__["dataPendudukbyAgama"].chartOptions,
         series: _chartOptions_dataPendudukbyAgama_js__WEBPACK_IMPORTED_MODULE_2__["dataPendudukbyAgama"].series
+      },
+      dataByGoldar: {
+        chartOptions: _chartOptions_dataPendudukByGoldar_js__WEBPACK_IMPORTED_MODULE_3__["dataPendudukByGoldar"].chartOptions,
+        series: _chartOptions_dataPendudukByGoldar_js__WEBPACK_IMPORTED_MODULE_3__["dataPendudukByGoldar"].series
       },
       menu2: -1,
       menu1: 0,
@@ -2181,6 +2191,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         });
 
         _this.dataByAgama.chartOptions = _objectSpread({}, _this.dataByAgama.chartOptions, {}, {
+          xaxis: {
+            categories: categories
+          }
+        });
+      });
+      axios.get('/dataPendudukByGoldar').then(function (response) {
+        var series = {
+          L: [],
+          P: []
+        };
+        var categories = [];
+        response.data.forEach(function (value, key) {
+          if (value.jumlah.L > 0 && value.jumlah.P > 0 && value.name != '-') {
+            categories.push(value.name);
+            series.L.push(value.jumlah.L);
+            series.P.push(value.jumlah.P);
+          }
+        }); //series.L.pop();series.P.pop();
+
+        _this.dataByGoldar.series = [{
+          name: 'Laki-laki',
+          data: series.L
+        }, {
+          name: 'Perempuan',
+          data: series.P
+        }];
+        _this.dataByGoldar.chartOptions = _objectSpread({}, _this.dataByGoldar.chartOptions, {}, {
           xaxis: {
             categories: categories
           }
@@ -39542,6 +39579,21 @@ var render = function() {
                                   type: "bar",
                                   options: _vm.dataByAgama.chartOptions,
                                   series: _vm.dataByAgama.series
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs6: "" } },
+                            [
+                              _c("apexchart", {
+                                attrs: {
+                                  type: "bar",
+                                  options: _vm.dataByGoldar.chartOptions,
+                                  series: _vm.dataByGoldar.series
                                 }
                               })
                             ],
@@ -88106,6 +88158,56 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/chartOptions/dataPendudukByGoldar.js":
+/*!***********************************************************!*\
+  !*** ./resources/js/chartOptions/dataPendudukByGoldar.js ***!
+  \***********************************************************/
+/*! exports provided: dataPendudukByGoldar */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dataPendudukByGoldar", function() { return dataPendudukByGoldar; });
+var dataPendudukByGoldar = {
+  series: [],
+  chartOptions: {
+    plotOptions: {
+      bar: {
+        horizontal: false,
+        columnWidth: '55%',
+        endingShape: 'rounded'
+      }
+    },
+    dataLabels: {
+      enabled: false
+    },
+    stroke: {
+      show: true,
+      width: 2,
+      colors: ['transparent']
+    },
+    xaxis: {
+      categories: []
+    },
+    yaxis: {// title: {
+      //   text: '$ (thousands)'
+      // }
+    },
+    fill: {
+      opacity: 1
+    },
+    tooltip: {// y: {
+      //   formatter: function (val) {
+      //     return "$ " + val + " thousands"
+      //   }
+      // }
+    }
+  }
+};
+
 
 /***/ }),
 

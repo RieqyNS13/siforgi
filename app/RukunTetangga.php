@@ -12,4 +12,7 @@ class RukunTetangga extends Model
     public function based_genders(){
     	return $this->hasMany('App\BasedGender');
     }
+    public function based_goldars(){
+    	return $this->hasMany('App\BasedGoldar');
+    }
 }
