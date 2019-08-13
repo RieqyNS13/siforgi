@@ -21,5 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(BasedAgamasTableSeeder::class);
         $this->call(GoldarsTableSeeder::class);
         $this->call(BasedGoldarTableSeeder::class);
+        $this->call(PendidikansTableSeeder::class);
+        $this->call(UmursTableSeeder::class);
     }
 }
