@@ -124,6 +124,14 @@
           </v-flex>
           </v-layout>
 
+           <v-layout>
+            <v-flex md8>
+              <apexchart type=bar :options="dataByPendidikan.chartOptions" :series="dataByPendidikan.series" />
+            </v-flex>
+           
+          </v-layout>
+
+
           </v-flex>
 
           <v-flex xs12 v-show="content=='map'">
@@ -151,6 +159,7 @@
   import {dataPendudukbyGender} from "../chartOptions/dataPendudukbyGender.js";
   import {dataPendudukbyAgama} from "../chartOptions/dataPendudukbyAgama.js";
   import {dataPendudukByGoldar} from "../chartOptions/dataPendudukByGoldar.js";
+  import {dataPendudukByPendidikan} from "../chartOptions/dataPendudukByPendidikan.js";
 
   export default {
 
@@ -203,6 +212,10 @@
         dataByGoldar:{
           chartOptions:dataPendudukByGoldar.chartOptions,
           series:dataPendudukByGoldar.series
+        },
+        dataByPendidikan:{
+           chartOptions:dataPendudukByPendidikan.chartOptions,
+            series:dataPendudukByPendidikan.series
         },
         menu2: -1,
         menu1: 0,
@@ -315,6 +328,31 @@
               ];
 
                this.dataByGoldar.chartOptions = {...this.dataByGoldar.chartOptions, ...{
+                        xaxis: {
+                          categories: categories,
+                        }
+                      }
+                  }
+
+            });
+            axios.get('/dataPendudukByPendidikan').then((response)=>{
+              //let series = [];
+              let categories = [];
+              let series=response.data.pendidikan;
+              response.data.pendidikan.forEach((value,key)=>{
+                    series[key].data=[];
+                });
+
+              response.data.based_pendidikan.forEach((value,key)=>{
+                  //series.push({})
+                 value.data.forEach((value2,key2)=>{
+                    series[key2].data.push(value2.jumlah_data);
+                  }); 
+                 categories.push(value.name);
+              });
+              console.log(series);
+                this.dataByPendidikan.series=series;
+               this.dataByPendidikan.chartOptions = {...this.dataByPendidikan.chartOptions, ...{
                         xaxis: {
                           categories: categories,
                         }

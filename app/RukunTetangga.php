@@ -15,4 +15,7 @@ class RukunTetangga extends Model
     public function based_goldars(){
     	return $this->hasMany('App\BasedGoldar');
     }
+    public function based_pendidikans(){
+    	return $this->hasMany('App\BasedPendidikan');
+    }
 }

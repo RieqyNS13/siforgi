@@ -22,6 +22,9 @@ class DatabaseSeeder extends Seeder
         $this->call(GoldarsTableSeeder::class);
         $this->call(BasedGoldarTableSeeder::class);
         $this->call(PendidikansTableSeeder::class);
+        $this->call(BasedPendidikanTableSeeder::class);
         $this->call(UmursTableSeeder::class);
+        $this->call(BasedUmurTableSeeder::class);
+
     }
 }

@@ -21,16 +21,10 @@ Route::get('/dataPenduduk', "BasedGenderController@dataPenduduk");
 Route::get('/dataPendudukByGender',"BasedGenderController@dataPendudukByGender");
 Route::get('/dataPendudukByAgama', "BasedAgamaController@dataPendudukByAgama");
 Route::get('/dataPendudukByGoldar', "BasedGoldarController@dataPendudukByGoldar");
+Route::get('/dataPendudukByPendidikan', "BasedPendidikanController@dataPendudukByPendidikan");
+
 Route::get('/test', function(){
-	$data = App\Goldar::with('based_goldars')->get();
-	foreach($data as $key=>$value){
-		$total = ['L'=>0,'P'=>0];
-		foreach ($value->based_goldars as $key2 => $value2) {
-			if($value2->gender=="L")$total['L'] += $value2->jumlah;
-			else $total['P'] += $value2->jumlah;
-		}
-		$data[$key]->jumlah = $total;
-	}
+	$data = App\Pendidikan::with('based_pendidikans.rukun_tetanggas.dusun')->get();
 	return $data;
 });
 

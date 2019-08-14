@@ -235,7 +235,7 @@ class BasedPendidikanTableSeeder extends Seeder
         			['pendidikan'=>"SLTA","data"=>['L'=>16, 'P'=>17]],
         			['pendidikan'=>"Diploma I/II","data"=>['L'=>0, 'P'=>0]],
         			['pendidikan'=>"Akademi/Diplomat III/S. Muda","data"=>['L'=>2, 'P'=>0]],
-        			['pendidikan'=>"Diploma IV/Strata I","data"=>['L'=>0 'P'=>4]],
+        			['pendidikan'=>"Diploma IV/Strata I","data"=>['L'=>0, 'P'=>4]],
         			['pendidikan'=>"Strata II","data"=>['L'=>0, 'P'=>0]],
         			['pendidikan'=>"Strata III","data"=>['L'=>0, 'P'=>0]],
         		]],
@@ -315,7 +315,7 @@ class BasedPendidikanTableSeeder extends Seeder
         			['pendidikan'=>"SLTA","data"=>['L'=>13, 'P'=>12]],
         			['pendidikan'=>"Diploma I/II","data"=>['L'=>0, 'P'=>0]],
         			['pendidikan'=>"Akademi/Diplomat III/S. Muda","data"=>['L'=>0, 'P'=>1]],
-        			['pendidikan'=>"Diploma IV/Strata I","data"=>['L'=>0 'P'=>0]],
+        			['pendidikan'=>"Diploma IV/Strata I","data"=>['L'=>0, 'P'=>0]],
         			['pendidikan'=>"Strata II","data"=>['L'=>0, 'P'=>0]],
         			['pendidikan'=>"Strata III","data"=>['L'=>0, 'P'=>0]],
         		]],
@@ -379,15 +379,35 @@ class BasedPendidikanTableSeeder extends Seeder
         			['pendidikan'=>"SLTA","data"=>['L'=>13, 'P'=>13]],
         			['pendidikan'=>"Diploma I/II","data"=>['L'=>0, 'P'=>1]],
         			['pendidikan'=>"Akademi/Diplomat III/S. Muda","data"=>['L'=>1, 'P'=>2]],
-        			['pendidikan'=>"Diploma IV/Strata I","data"=>['L'=>1 'P'=>1]],
+        			['pendidikan'=>"Diploma IV/Strata I","data"=>['L'=>1, 'P'=>1]],
         			['pendidikan'=>"Strata II","data"=>['L'=>0, 'P'=>0]],
         			['pendidikan'=>"Strata III","data"=>['L'=>0, 'P'=>0]],
         		]],
         	
         	]],
 
-
-
         ];
+        $getDusun = App\Dusun::with('rukun_tetanggas')->get();
+        $getPendidikan = App\Pendidikan::get();
+        foreach($dusuns as $key=>$value){
+        	$dusun_index = $getDusun->search(function($item, $key)use($value){
+        		return $item->name==$value['name'];
+        	});
+        	foreach($value['data'] as $key2=>$value2){
+        		$rt_index = $getDusun[$dusun_index]->rukun_tetanggas->search(function($item, $key)use($value2){
+        			return $item->rt_no==$value2["rt"];
+        		});
+        		foreach($value2['penduduk'] as $key3=>$value3){
+        			$pendidikan_index = $getPendidikan->search(function($item, $key)use($value3){
+        				return $item->name==$value3['pendidikan'];
+        			});
+        			$data = ['rukun_tetangga_id'=>$getDusun[$dusun_index]->rukun_tetanggas[$rt_index]->id, 'pendidikan_id'=>$getPendidikan[$pendidikan_index]->id,'gender'=>'L','jumlah'=>$value3['data']['L']];
+        			$data2 = ['rukun_tetangga_id'=>$getDusun[$dusun_index]->rukun_tetanggas[$rt_index]->id, 'pendidikan_id'=>$getPendidikan[$pendidikan_index]->id,'gender'=>'P','jumlah'=>$value3['data']['P']];
+        			App\BasedPendidikan::create($data);
+        			App\BasedPendidikan::create($data2);
+        		}
+        	}
+        
+        }
     }
 }

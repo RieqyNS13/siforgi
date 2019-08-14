@@ -1874,6 +1874,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _chartOptions_dataPendudukbyGender_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../chartOptions/dataPendudukbyGender.js */ "./resources/js/chartOptions/dataPendudukbyGender.js");
 /* harmony import */ var _chartOptions_dataPendudukbyAgama_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../chartOptions/dataPendudukbyAgama.js */ "./resources/js/chartOptions/dataPendudukbyAgama.js");
 /* harmony import */ var _chartOptions_dataPendudukByGoldar_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../chartOptions/dataPendudukByGoldar.js */ "./resources/js/chartOptions/dataPendudukByGoldar.js");
+/* harmony import */ var _chartOptions_dataPendudukByPendidikan_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../chartOptions/dataPendudukByPendidikan.js */ "./resources/js/chartOptions/dataPendudukByPendidikan.js");
 
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -2035,6 +2036,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -2107,6 +2117,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       dataByGoldar: {
         chartOptions: _chartOptions_dataPendudukByGoldar_js__WEBPACK_IMPORTED_MODULE_3__["dataPendudukByGoldar"].chartOptions,
         series: _chartOptions_dataPendudukByGoldar_js__WEBPACK_IMPORTED_MODULE_3__["dataPendudukByGoldar"].series
+      },
+      dataByPendidikan: {
+        chartOptions: _chartOptions_dataPendudukByPendidikan_js__WEBPACK_IMPORTED_MODULE_4__["dataPendudukByPendidikan"].chartOptions,
+        series: _chartOptions_dataPendudukByPendidikan_js__WEBPACK_IMPORTED_MODULE_4__["dataPendudukByPendidikan"].series
       },
       menu2: -1,
       menu1: 0,
@@ -2218,6 +2232,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           data: series.P
         }];
         _this.dataByGoldar.chartOptions = _objectSpread({}, _this.dataByGoldar.chartOptions, {}, {
+          xaxis: {
+            categories: categories
+          }
+        });
+      });
+      axios.get('/dataPendudukByPendidikan').then(function (response) {
+        //let series = [];
+        var categories = [];
+        var series = response.data.pendidikan;
+        response.data.pendidikan.forEach(function (value, key) {
+          series[key].data = [];
+        });
+        response.data.based_pendidikan.forEach(function (value, key) {
+          //series.push({})
+          value.data.forEach(function (value2, key2) {
+            series[key2].data.push(value2.jumlah_data);
+          });
+          categories.push(value.name);
+        });
+        console.log(series);
+        _this.dataByPendidikan.series = series;
+        _this.dataByPendidikan.chartOptions = _objectSpread({}, _this.dataByPendidikan.chartOptions, {}, {
           xaxis: {
             categories: categories
           }
@@ -39594,6 +39630,27 @@ var render = function() {
                                   type: "bar",
                                   options: _vm.dataByGoldar.chartOptions,
                                   series: _vm.dataByGoldar.series
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-layout",
+                        [
+                          _c(
+                            "v-flex",
+                            { attrs: { md8: "" } },
+                            [
+                              _c("apexchart", {
+                                attrs: {
+                                  type: "bar",
+                                  options: _vm.dataByPendidikan.chartOptions,
+                                  series: _vm.dataByPendidikan.series
                                 }
                               })
                             ],
@@ -88204,6 +88261,59 @@ var dataPendudukByGoldar = {
       //     return "$ " + val + " thousands"
       //   }
       // }
+    }
+  }
+};
+
+
+/***/ }),
+
+/***/ "./resources/js/chartOptions/dataPendudukByPendidikan.js":
+/*!***************************************************************!*\
+  !*** ./resources/js/chartOptions/dataPendudukByPendidikan.js ***!
+  \***************************************************************/
+/*! exports provided: dataPendudukByPendidikan */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dataPendudukByPendidikan", function() { return dataPendudukByPendidikan; });
+var dataPendudukByPendidikan = {
+  series: [],
+  chartOptions: {
+    chart: {
+      stacked: true,
+      toolbar: {
+        show: true
+      },
+      zoom: {
+        enabled: true
+      }
+    },
+    responsive: [{
+      breakpoint: 480,
+      options: {
+        legend: {
+          position: 'bottom',
+          offsetX: -10,
+          offsetY: 0
+        }
+      }
+    }],
+    plotOptions: {
+      bar: {
+        horizontal: false
+      }
+    },
+    xaxis: {
+      categories: []
+    },
+    legend: {
+      position: 'right',
+      offsetY: 40
+    },
+    fill: {
+      opacity: 1
     }
   }
 };
