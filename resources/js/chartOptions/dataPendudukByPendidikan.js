@@ -1,6 +1,6 @@
 var dataPendudukByPendidikan = {
 		series: [],
-            chartOptions: {
+    chartOptions: {
           chart: {
             stacked: true,
             toolbar: {
@@ -29,10 +29,9 @@ var dataPendudukByPendidikan = {
           xaxis: {
             categories: [],
           },
-          legend: {
-            position: 'right',
-            offsetY: 40
-          },
+          // legend: {
+          //   position: 'right',
+          // },
           fill: {
             opacity: 1
           }

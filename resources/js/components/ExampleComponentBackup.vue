@@ -71,12 +71,12 @@
         fluid
       >
 
-        <v-row
+        <v-layout
           align-center
           justify-center
         >
 
-        <v-col cols="12" v-show="content=='home'">
+        <v-flex md12 v-show="content=='home'">
           <v-carousel>
             <v-carousel-item
               v-for="(carousel, i) in carousels"
@@ -86,8 +86,8 @@
                 height="100%"
                 tile
               >
-                <v-row >
-                <v-col cols="12">                
+                <v-layout >
+                <v-flex md12>                
 <v-img
       class="white--text"
       height="400px"
@@ -95,55 +95,55 @@
     >
       <v-card-title class="align-end fill-height">{{carousel.name}}</v-card-title>
     </v-img>
-  </v-col>
-                </v-row>
+  </v-flex>
+                </v-layout>
               </v-sheet>
             </v-carousel-item>
         </v-carousel>
   <v-divider></v-divider>
 
-        <v-row>
-             <v-col cols="6">
+        <v-layout>
+             <v-flex md6>
           <apexchart type=pie :options="dataPenduduk.chartOptions" :series="dataPenduduk.series"></apexchart>
 
-          </v-col>
-          <v-col cols="6">
+          </v-flex>
+          <v-flex md6>
                 <apexchart type=bar :options="dataByGender.chartOptions" :series="dataByGender.series" />
 
-          </v-col>
+          </v-flex>
 
-        </v-row>
+        </v-layout>
  <!-- <apexchart type=bar height=350 :options="chartOptions" :series="series" / -->
-          <v-row>
-            <v-col cols="6">
+          <v-layout>
+            <v-flex md6>
               <apexchart type=bar :options="dataByAgama.chartOptions" :series="dataByAgama.series" />
-            </v-col>
-             <v-col cols="6">
+            </v-flex>
+             <v-flex md6>
                 <apexchart type=bar :options="dataByGoldar.chartOptions" :series="dataByGoldar.series" />
 
-          </v-col>
-          </v-row>
+          </v-flex>
+          </v-layout>
 
-           <v-row>
-            <v-col cols="12">
+           <v-layout>
+            <v-flex md12>
               <apexchart type=bar :options="dataByPendidikan.chartOptions" :series="dataByPendidikan.series" />
-            </v-col>
+            </v-flex>
            
-          </v-row>
+          </v-layout>
 
 
-          </v-col> <!--anjir-->
+          </v-flex> <!--anjir-->
 
-          <v-col cols="12" v-show="content=='map'">
+          <v-flex md12 v-show="content=='map'">
 
             <div class="google-map" id="map">
               
             </div>
 
 
-          </v-col>
+          </v-flex>
           
-        </v-row>
+        </v-layout>
       </v-container>
     </v-content>
     <v-footer

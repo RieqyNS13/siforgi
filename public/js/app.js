@@ -39493,11 +39493,11 @@ var render = function() {
             { attrs: { fluid: "" } },
             [
               _c(
-                "v-layout",
+                "v-row",
                 { attrs: { "align-center": "", "justify-center": "" } },
                 [
                   _c(
-                    "v-flex",
+                    "v-col",
                     {
                       directives: [
                         {
@@ -39507,7 +39507,7 @@ var render = function() {
                           expression: "content=='home'"
                         }
                       ],
-                      attrs: { xs12: "" }
+                      attrs: { cols: "12" }
                     },
                     [
                       _c(
@@ -39522,11 +39522,11 @@ var render = function() {
                                 { attrs: { height: "100%", tile: "" } },
                                 [
                                   _c(
-                                    "v-layout",
+                                    "v-row",
                                     [
                                       _c(
-                                        "v-flex",
-                                        { attrs: { xs12: "" } },
+                                        "v-col",
+                                        { attrs: { cols: "12" } },
                                         [
                                           _c(
                                             "v-img",
@@ -39568,11 +39568,11 @@ var render = function() {
                       _c("v-divider"),
                       _vm._v(" "),
                       _c(
-                        "v-layout",
+                        "v-row",
                         [
                           _c(
-                            "v-flex",
-                            { attrs: { xs6: "" } },
+                            "v-col",
+                            { attrs: { cols: "6" } },
                             [
                               _c("apexchart", {
                                 attrs: {
@@ -39586,8 +39586,8 @@ var render = function() {
                           ),
                           _vm._v(" "),
                           _c(
-                            "v-flex",
-                            { attrs: { xs6: "" } },
+                            "v-col",
+                            { attrs: { cols: "6" } },
                             [
                               _c("apexchart", {
                                 attrs: {
@@ -39604,11 +39604,11 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _c(
-                        "v-layout",
+                        "v-row",
                         [
                           _c(
-                            "v-flex",
-                            { attrs: { xs6: "" } },
+                            "v-col",
+                            { attrs: { cols: "6" } },
                             [
                               _c("apexchart", {
                                 attrs: {
@@ -39622,8 +39622,8 @@ var render = function() {
                           ),
                           _vm._v(" "),
                           _c(
-                            "v-flex",
-                            { attrs: { xs6: "" } },
+                            "v-col",
+                            { attrs: { cols: "6" } },
                             [
                               _c("apexchart", {
                                 attrs: {
@@ -39640,11 +39640,11 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _c(
-                        "v-layout",
+                        "v-row",
                         [
                           _c(
-                            "v-flex",
-                            { attrs: { md8: "" } },
+                            "v-col",
+                            { attrs: { cols: "12" } },
                             [
                               _c("apexchart", {
                                 attrs: {
@@ -39664,7 +39664,7 @@ var render = function() {
                   ),
                   _vm._v(" "),
                   _c(
-                    "v-flex",
+                    "v-col",
                     {
                       directives: [
                         {
@@ -39674,7 +39674,7 @@ var render = function() {
                           expression: "content=='map'"
                         }
                       ],
-                      attrs: { xs12: "" }
+                      attrs: { cols: "12" }
                     },
                     [
                       _c("div", {
@@ -88308,10 +88308,9 @@ var dataPendudukByPendidikan = {
     xaxis: {
       categories: []
     },
-    legend: {
-      position: 'right',
-      offsetY: 40
-    },
+    // legend: {
+    //   position: 'right',
+    // },
     fill: {
       opacity: 1
     }
