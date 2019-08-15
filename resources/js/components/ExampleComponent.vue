@@ -195,15 +195,7 @@
                 zoom: {
                   enabled: true
                 }
-              },
-              responsive: [{
-                breakpoint: 480,
-                options: {
-                  legend: {
-                    position: 'bottom'
-                  }
-                }
-              }]
+              }
             }
         },
         dataByGender:{

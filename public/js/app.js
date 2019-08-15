@@ -2102,15 +2102,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             zoom: {
               enabled: true
             }
-          },
-          responsive: [{
-            breakpoint: 480,
-            options: {
-              legend: {
-                position: 'bottom'
-              }
-            }
-          }]
+          }
         }
       },
       dataByGender: {
