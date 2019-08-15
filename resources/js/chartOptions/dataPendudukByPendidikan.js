@@ -1,6 +1,9 @@
 var dataPendudukByPendidikan = {
 		series: [],
     chartOptions: {
+       title: {
+            text: 'Jumlah Penduduk Menurut Pendidikan'
+          },
           chart: {
             stacked: true,
             toolbar: {

@@ -128,7 +128,9 @@
             <v-col cols="12">
               <apexchart type=bar :options="dataByPendidikan.chartOptions" :series="dataByPendidikan.series" />
             </v-col>
-           
+            <v-col cols="12">
+              <apexchart type=bar :options="dataByUmur.chartOptions" :series="dataByUmur.series" />
+            </v-col>
           </v-row>
 
 
@@ -160,7 +162,7 @@
   import {dataPendudukbyAgama} from "../chartOptions/dataPendudukbyAgama.js";
   import {dataPendudukByGoldar} from "../chartOptions/dataPendudukByGoldar.js";
   import {dataPendudukByPendidikan} from "../chartOptions/dataPendudukByPendidikan.js";
-
+  import {dataPendudukByUmur} from "../chartOptions/dataPendudukByUmur.js";
   export default {
 
     props: {
@@ -182,6 +184,9 @@
         dataPenduduk:{
             series: [],
             chartOptions: {
+               title: {
+            text: 'Persentase Jumlah Penduduk'
+          },
               labels: [],
               chart: {
                 toolbar: {
@@ -216,6 +221,10 @@
         dataByPendidikan:{
            chartOptions:dataPendudukByPendidikan.chartOptions,
             series:dataPendudukByPendidikan.series
+        },
+        dataByUmur:{
+          chartOptions:dataPendudukByUmur.chartOptions,
+            series:dataPendudukByUmur.series
         },
         menu2: -1,
         menu1: 0,
@@ -353,6 +362,31 @@
               console.log(series);
                 this.dataByPendidikan.series=series;
                this.dataByPendidikan.chartOptions = {...this.dataByPendidikan.chartOptions, ...{
+                        xaxis: {
+                          categories: categories,
+                        }
+                      }
+                  }
+
+            });
+            axios.get('/dataPendudukByUmur').then((response)=>{
+              //let series = [];
+              let categories = [];
+              let series=response.data.umur;
+              response.data.umur.forEach((value,key)=>{
+                    series[key].data=[];
+                });
+
+              response.data.based_umur.forEach((value,key)=>{
+                  //series.push({})
+                 value.data.forEach((value2,key2)=>{
+                    series[key2].data.push(value2.jumlah_data);
+                  }); 
+                 categories.push(value.name);
+              });
+              console.log(series);
+                this.dataByUmur.series=series;
+               this.dataByUmur.chartOptions = {...this.dataByUmur.chartOptions, ...{
                         xaxis: {
                           categories: categories,
                         }

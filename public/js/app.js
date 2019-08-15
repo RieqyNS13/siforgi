@@ -1875,6 +1875,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _chartOptions_dataPendudukbyAgama_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../chartOptions/dataPendudukbyAgama.js */ "./resources/js/chartOptions/dataPendudukbyAgama.js");
 /* harmony import */ var _chartOptions_dataPendudukByGoldar_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../chartOptions/dataPendudukByGoldar.js */ "./resources/js/chartOptions/dataPendudukByGoldar.js");
 /* harmony import */ var _chartOptions_dataPendudukByPendidikan_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../chartOptions/dataPendudukByPendidikan.js */ "./resources/js/chartOptions/dataPendudukByPendidikan.js");
+/* harmony import */ var _chartOptions_dataPendudukByUmur_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../chartOptions/dataPendudukByUmur.js */ "./resources/js/chartOptions/dataPendudukByUmur.js");
 
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -2044,6 +2045,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+
 
 
 
@@ -2087,6 +2091,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       dataPenduduk: {
         series: [],
         chartOptions: {
+          title: {
+            text: 'Persentase Jumlah Penduduk'
+          },
           labels: [],
           chart: {
             toolbar: {
@@ -2121,6 +2128,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       dataByPendidikan: {
         chartOptions: _chartOptions_dataPendudukByPendidikan_js__WEBPACK_IMPORTED_MODULE_4__["dataPendudukByPendidikan"].chartOptions,
         series: _chartOptions_dataPendudukByPendidikan_js__WEBPACK_IMPORTED_MODULE_4__["dataPendudukByPendidikan"].series
+      },
+      dataByUmur: {
+        chartOptions: _chartOptions_dataPendudukByUmur_js__WEBPACK_IMPORTED_MODULE_5__["dataPendudukByUmur"].chartOptions,
+        series: _chartOptions_dataPendudukByUmur_js__WEBPACK_IMPORTED_MODULE_5__["dataPendudukByUmur"].series
       },
       menu2: -1,
       menu1: 0,
@@ -2254,6 +2265,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         console.log(series);
         _this.dataByPendidikan.series = series;
         _this.dataByPendidikan.chartOptions = _objectSpread({}, _this.dataByPendidikan.chartOptions, {}, {
+          xaxis: {
+            categories: categories
+          }
+        });
+      });
+      axios.get('/dataPendudukByUmur').then(function (response) {
+        //let series = [];
+        var categories = [];
+        var series = response.data.umur;
+        response.data.umur.forEach(function (value, key) {
+          series[key].data = [];
+        });
+        response.data.based_umur.forEach(function (value, key) {
+          //series.push({})
+          value.data.forEach(function (value2, key2) {
+            series[key2].data.push(value2.jumlah_data);
+          });
+          categories.push(value.name);
+        });
+        console.log(series);
+        _this.dataByUmur.series = series;
+        _this.dataByUmur.chartOptions = _objectSpread({}, _this.dataByUmur.chartOptions, {}, {
           xaxis: {
             categories: categories
           }
@@ -39651,6 +39684,21 @@ var render = function() {
                                   type: "bar",
                                   options: _vm.dataByPendidikan.chartOptions,
                                   series: _vm.dataByPendidikan.series
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "12" } },
+                            [
+                              _c("apexchart", {
+                                attrs: {
+                                  type: "bar",
+                                  options: _vm.dataByUmur.chartOptions,
+                                  series: _vm.dataByUmur.series
                                 }
                               })
                             ],
@@ -88231,6 +88279,9 @@ __webpack_require__.r(__webpack_exports__);
 var dataPendudukByGoldar = {
   series: [],
   chartOptions: {
+    title: {
+      text: 'Jumlah Penduduk Menurut Gol. Darah'
+    },
     plotOptions: {
       bar: {
         horizontal: false,
@@ -88281,6 +88332,9 @@ __webpack_require__.r(__webpack_exports__);
 var dataPendudukByPendidikan = {
   series: [],
   chartOptions: {
+    title: {
+      text: 'Jumlah Penduduk Menurut Pendidikan'
+    },
     chart: {
       stacked: true,
       toolbar: {
@@ -88320,6 +88374,67 @@ var dataPendudukByPendidikan = {
 
 /***/ }),
 
+/***/ "./resources/js/chartOptions/dataPendudukByUmur.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/chartOptions/dataPendudukByUmur.js ***!
+  \*********************************************************/
+/*! exports provided: dataPendudukByUmur */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dataPendudukByUmur", function() { return dataPendudukByUmur; });
+var dataPendudukByUmur = {
+  series: [],
+  chartOptions: {
+    chart: {
+      stacked: true
+    },
+    plotOptions: {
+      bar: {
+        horizontal: true
+      }
+    },
+    stroke: {
+      width: 1,
+      colors: ['#fff']
+    },
+    title: {
+      text: 'Jumlah Penduduk Menurut Umur'
+    },
+    xaxis: {
+      categories: [] // labels: {
+      //   formatter: function (val) {
+      //     return val + "K"
+      //   }
+      // }
+
+    },
+    yaxis: {
+      title: {
+        text: undefined
+      }
+    },
+    tooltip: {// y: {
+      //   formatter: function (val) {
+      //     return val + "K"
+      //   }
+      // }
+    },
+    fill: {
+      opacity: 1
+    },
+    legend: {
+      position: 'top',
+      horizontalAlign: 'left',
+      offsetX: 40
+    }
+  }
+};
+
+
+/***/ }),
+
 /***/ "./resources/js/chartOptions/dataPendudukbyAgama.js":
 /*!**********************************************************!*\
   !*** ./resources/js/chartOptions/dataPendudukbyAgama.js ***!
@@ -88339,6 +88454,9 @@ var dataPendudukbyAgama = {
       bar: {
         horizontal: true
       }
+    },
+    title: {
+      text: 'Jumlah Penduduk Menurut Agama'
     },
     dataLabels: {
       enabled: false
@@ -88365,6 +88483,9 @@ __webpack_require__.r(__webpack_exports__);
 var dataPendudukbyGender = {
   series: [],
   chartOptions: {
+    title: {
+      text: 'Jumlah Penduduk Menurut Jen. Kelamin'
+    },
     chart: {
       stacked: true,
       toolbar: {

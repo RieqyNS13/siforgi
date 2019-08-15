@@ -8,6 +8,9 @@ var dataPendudukbyAgama = {
               horizontal: true,
             }
           },
+           title: {
+            text: 'Jumlah Penduduk Menurut Agama'
+          },
           dataLabels: {
             enabled: false
           },

@@ -1,6 +1,9 @@
 var dataPendudukByGoldar = {
         series: [],
         chartOptions: {
+           title: {
+            text: 'Jumlah Penduduk Menurut Gol. Darah'
+          },
           plotOptions: {
             bar: {
               horizontal: false,

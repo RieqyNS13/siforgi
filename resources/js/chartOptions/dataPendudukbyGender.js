@@ -1,6 +1,9 @@
 var dataPendudukbyGender = {
 		series: [],
             chartOptions: {
+               title: {
+            text: 'Jumlah Penduduk Menurut Jen. Kelamin'
+          },
           chart: {
             stacked: true,
             toolbar: {

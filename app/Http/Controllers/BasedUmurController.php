@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Dusun;
+use App\Umur;
+use App\BasedUmur;
+use Illuminate\Support\Facades\DB;
 
 class BasedUmurController extends Controller
 {
@@ -80,5 +84,19 @@ class BasedUmurController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function dataPendudukByUmur(){
+        //select a.rw_no,a.name,b.rt_no,d.name,sum(c.jumlah) as jumlah from dusuns a join rukun_tetanggas b on a.id=b.dusun_id join based_umurs c on c.rukun_tetangga_id=b.id join umurs d on d.id=c.umur_id group by a.name,d.name order by a.rw_no,d.id
+       $data=DB::table('dusuns')->join('rukun_tetanggas','dusuns.id','=','rukun_tetanggas.dusun_id')->join('based_umurs','based_umurs.rukun_tetangga_id','=','rukun_tetanggas.id')->join('umurs','umurs.id','=','based_umurs.umur_id')->select('based_umurs.umur_id','dusuns.name as nama_dusun','umurs.name as umur', DB::raw('sum(based_umurs.jumlah) as jumlah_data'))->groupBy('dusuns.name','umurs.name')->orderBy('dusuns.rw_no')->orderBy('umurs.id')->get();
+       $dusun = Dusun::get();
+      
+       foreach($dusun as $key=>$value)$dusun[$key]->data=collect([]);
+       foreach($data as $key=>$value){
+            $dusun_index = $dusun->search(function($item, $key)use($value){
+                return $item->name==$value->nama_dusun;
+            });
+            $dusun[$dusun_index]->data->push($value);
+       }
+       return ['umur'=>Umur::orderBy('id')->get(), 'based_umur'=>$dusun];
     }
 }
