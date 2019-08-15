@@ -125,14 +125,21 @@
           </v-row>
 
            <v-row>
-            <v-col cols="12">
-              <apexchart type=bar :options="dataByPendidikan.chartOptions" :series="dataByPendidikan.series" />
+            <v-col cols="6">
+              <apexchart type=bar height="600" :options="dataByPendidikan.chartOptions" :series="dataByPendidikan.series" />
             </v-col>
-            <v-col cols="12">
-              <apexchart type=bar :options="dataByUmur.chartOptions" :series="dataByUmur.series" />
+            <v-col cols="6">
+              <apexchart type=bar height="600" :options="dataByPiramidaPenduduk.chartOptions" :series="dataByPiramidaPenduduk.series" />
             </v-col>
           </v-row>
 
+           <v-row>
+            <v-col cols="12">
+              <apexchart type=bar height="600" :options="dataByUmur.chartOptions" :series="dataByUmur.series" />
+
+            </v-col>
+            
+          </v-row>
 
           </v-col> <!--anjir-->
 
@@ -158,11 +165,12 @@
 </template>
 
 <script>
-  import {dataPendudukbyGender} from "../chartOptions/dataPendudukbyGender.js";
-  import {dataPendudukbyAgama} from "../chartOptions/dataPendudukbyAgama.js";
-  import {dataPendudukByGoldar} from "../chartOptions/dataPendudukByGoldar.js";
-  import {dataPendudukByPendidikan} from "../chartOptions/dataPendudukByPendidikan.js";
-  import {dataPendudukByUmur} from "../chartOptions/dataPendudukByUmur.js";
+  import {dataPendudukbyGender} from "../charts/dataPendudukbyGender.js";
+  import {dataPendudukbyAgama} from "../charts/dataPendudukbyAgama.js";
+  import {dataPendudukByGoldar} from "../charts/dataPendudukByGoldar.js";
+  import {dataPendudukByPendidikan} from "../charts/dataPendudukByPendidikan.js";
+  import {dataPendudukByUmur} from "../charts/dataPendudukByUmur.js";
+  import {piramidaPenduduk} from "../charts/piramidaPenduduk.js";
   export default {
 
     props: {
@@ -217,6 +225,10 @@
         dataByUmur:{
           chartOptions:dataPendudukByUmur.chartOptions,
             series:dataPendudukByUmur.series
+        },
+        dataByPiramidaPenduduk:{
+           chartOptions:piramidaPenduduk.chartOptions,
+            series:piramidaPenduduk.series
         },
         menu2: -1,
         menu1: 0,
@@ -379,6 +391,31 @@
               console.log(series);
                 this.dataByUmur.series=series;
                this.dataByUmur.chartOptions = {...this.dataByUmur.chartOptions, ...{
+                        xaxis: {
+                          categories: categories,
+                        }
+                      }
+                  }
+
+            });
+            axios.get('/piramidaPenduduk').then((response)=>{
+              //let series = [];
+              let categories = [];
+                let series=[
+                  {name:'Laki-laki', data:[]},
+                  {name:'Perempuan', data:[]},
+                ];
+              
+              response.data.forEach((value,key)=>{
+                  series[0].data.push(value.data.L);
+                  series[1].data.push(value.data.P*-1);
+                  series
+                 categories.push(value.name);
+              });
+              console.log(series);
+              //return;
+                this.dataByPiramidaPenduduk.series=series;
+               this.dataByPiramidaPenduduk.chartOptions = {...this.dataByPiramidaPenduduk.chartOptions, ...{
                         xaxis: {
                           categories: categories,
                         }

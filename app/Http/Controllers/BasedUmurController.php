@@ -99,4 +99,23 @@ class BasedUmurController extends Controller
        }
        return ['umur'=>Umur::orderBy('id')->get(), 'based_umur'=>$dusun];
     }
+    public function piramidaPenduduk(){
+       //select b.umur_id,a.name as umur,b.gender as jenkel,sum(b.jumlah) as jumlah from umurs a inner join based_umurs b on a.id=b.umur_id group by a.name,b.gender order by a.id desc,b.id
+        $data = DB::table('umurs')->join('based_umurs','based_umurs.umur_id','=','umurs.id')->select('based_umurs.umur_id','umurs.name as umur', 'based_umurs.gender as jenkel', DB::raw('sum(based_umurs.jumlah) as jumlah_data'))->groupBy('umurs.name', 'based_umurs.gender')->orderBy('umurs.id','desc')->orderBy('based_umurs.id')->get();
+        //return $data;
+        //dd($data);
+        $umurs = Umur::orderBy('id','desc')->get();
+        foreach($umurs as $key=>$umur)$umurs[$key]->data = collect(["L"=>collect([]),"P"=>collect([])]);
+        //return $umurs;
+         //dd($umurs);
+        foreach($data as $key=>$value){
+            $umur_index = $umurs->search(function($item, $key)use($value){
+                return $item->id==$value->umur_id;
+            });
+            $umurs[$umur_index]->data[$value->jenkel]=($value->jumlah_data);
+
+        }
+        return $umurs;
+        //return ['a'=>$umur, 'b'=>BasedUmur::orderBy('id')->get()];
+    }
 }

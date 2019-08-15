@@ -19,7 +19,13 @@ var dataPendudukByGoldar = {
             width: 2,
             colors: ['transparent']
           },
-
+          tooltip: {
+            y: {
+              formatter: function (val) {
+                return val + " orang"
+              }
+            }
+          },
           xaxis: {
             categories: [],
           },

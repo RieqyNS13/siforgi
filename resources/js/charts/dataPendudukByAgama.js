@@ -3,6 +3,13 @@ var dataPendudukbyAgama = {
           data: []
         }],
         chartOptions: {
+          tooltip: {
+            y: {
+              formatter: function (val) {
+                return val + " orang"
+              }
+            }
+          },
           plotOptions: {
             bar: {
               horizontal: true,

@@ -1,8 +1,12 @@
-var dataPendudukbyGender = {
+var dataPendudukByPendidikan = {
 		series: [],
-            chartOptions: {
-               title: {
-            text: 'Jumlah Penduduk Menurut Jen. Kelamin'
+    chartOptions: {
+        dataLabels: {
+            enabled: true
+          },
+         
+       title: {
+            text: 'Jumlah Penduduk Menurut Pendidikan'
           },
           chart: {
             stacked: true,
@@ -25,19 +29,26 @@ var dataPendudukbyGender = {
           }],
           plotOptions: {
             bar: {
+             
               horizontal: false,
             },
           },
-
+          tooltip: {
+            y: {
+              formatter: function (val) {
+                return val + " orang"
+              }
+            }
+          },
           xaxis: {
             categories: [],
           },
-          legend: {
-           
-          },
+          // legend: {
+          //   position: 'right',
+          // },
           fill: {
             opacity: 1
           }
         }
 }
-export {dataPendudukbyGender};
+export {dataPendudukByPendidikan};

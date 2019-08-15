@@ -23,9 +23,9 @@ Route::get('/dataPendudukByAgama', "BasedAgamaController@dataPendudukByAgama");
 Route::get('/dataPendudukByGoldar', "BasedGoldarController@dataPendudukByGoldar");
 Route::get('/dataPendudukByPendidikan', "BasedPendidikanController@dataPendudukByPendidikan");
 Route::get('/dataPendudukByUmur', "BasedUmurController@dataPendudukByUmur");
+Route::get('/piramidaPenduduk', 'BasedUmurController@piramidaPenduduk');
 Route::get('/test', function(){
-	$data = App\Pendidikan::with('based_pendidikans.rukun_tetanggas.dusun')->get();
-	return $data;
+	dd(collect(["L"=>[], "P"=>[]]));
 });
 
 Auth::routes();

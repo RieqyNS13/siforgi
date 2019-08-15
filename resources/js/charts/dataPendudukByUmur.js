@@ -6,10 +6,23 @@ var dataPendudukByUmur = {
           },
           plotOptions: {
             bar: {
+   //            barHeight: '55%',
               horizontal: true,
+              //barHeight: '80%',
+             
             },
 
           },
+           responsive: [{
+            breakpoint: 480,
+            options: {
+              legend: {
+                position: 'bottom',
+                offsetX: -10,
+                offsetY: 0
+              }
+            }
+          }],
           stroke: {
             width: 1,
             colors: ['#fff']
@@ -26,18 +39,18 @@ var dataPendudukByUmur = {
             //   }
             // }
           },
+         
           yaxis: {
             title: {
               text: undefined
             },
-
           },
           tooltip: {
-            // y: {
-            //   formatter: function (val) {
-            //     return val + "K"
-            //   }
-            // }
+            y: {
+              formatter: function (val) {
+                return val + " orang"
+              }
+            },
           },
           fill: {
             opacity: 1
