@@ -13,4 +13,3 @@ class BasedUmur extends Model
     	return $this->belongsTo('App\RukunTetangga','rukun_tetangga_id');
     }
 }
-}

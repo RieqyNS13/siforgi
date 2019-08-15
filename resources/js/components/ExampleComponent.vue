@@ -152,7 +152,7 @@
       color="indigo"
       app
     >
-      <span class="white--text">&copy; 2019</span>
+      <span class="white--text">&copy; 2019 Tim KKN ALT 2A UNNES Tahun 2019</span>
     </v-footer>
   </v-app>
 </template>

@@ -39742,7 +39742,9 @@ var render = function() {
       ),
       _vm._v(" "),
       _c("v-footer", { attrs: { color: "indigo", app: "" } }, [
-        _c("span", { staticClass: "white--text" }, [_vm._v("© 2019")])
+        _c("span", { staticClass: "white--text" }, [
+          _vm._v("© 2019 Tim KKN ALT 2A UNNES Tahun 2019")
+        ])
       ])
     ],
     1
