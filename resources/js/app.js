@@ -15,6 +15,7 @@ import VueApexCharts from 'vue-apexcharts'
 
 Vue.use(Vuetify);
 Vue.component('apexchart', VueApexCharts)
+window.MarkerWithLabel = require('markerwithlabel')(google.maps);
 
 /**
  * The following block of code may be used to automatically register your

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Dusun;
+use App\Jenis;
 class HomeController extends Controller
 {
     /**
@@ -23,7 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $data=['dusun' => Dusun::get()];
+        $data=['dusun' => Dusun::get(), 'jenisLokasi'=>Jenis::get()];
         return view('home', $data);
     }
 }

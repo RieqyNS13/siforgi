@@ -74,9 +74,10 @@
         <v-row
           align-center
           justify-center
+          v-show="content=='home'"
         >
 
-        <v-col cols="12" v-show="content=='home'">
+        <v-col cols="12" >
           <v-carousel>
             <v-carousel-item
               v-for="(carousel, i) in carousels"
@@ -129,6 +130,15 @@
               <apexchart type=bar height="600" :options="dataByPendidikan.chartOptions" :series="dataByPendidikan.series" />
             </v-col>
             <v-col cols="6">
+              <v-select
+              return-object
+          :items="dataDusun2"
+           v-model="select"
+          item-value="id"
+          item-text="name"
+          label="Pilih Dusun yang Akan Ditampilkan Piramida Penduduknya"
+        ></v-select>
+
               <apexchart type=bar height="600" :options="dataByPiramidaPenduduk.chartOptions" :series="dataByPiramidaPenduduk.series" />
             </v-col>
           </v-row>
@@ -143,16 +153,42 @@
 
           </v-col> <!--anjir-->
 
-          <v-col cols="12" v-show="content=='map'">
+         
+        </v-row>
+
+         <v-row
+          align-center
+          justify-center
+          v-show="content=='map'"
+        >
+        <v-col cols="12" >
 
             <div class="google-map" id="map">
               
             </div>
 
-
           </v-col>
-          
-        </v-row>
+
+       <v-col cols="12">
+         <v-expansion-panels
+     multiple
+      v-model="panelJenisLokasi"
+    >
+      <v-expansion-panel
+        v-for="(item,i) in dataJenisLokasi"
+        :key="i"
+
+      >
+        <v-expansion-panel-header>{{item.name}}</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
+          </v-col>
+
+      </v-row>
+
       </v-container>
     </v-content>
     <v-footer
@@ -176,19 +212,31 @@
     props: {
       source: String,
       dataDusun: Array,
-      name: String
-
+      name: String,
+      dataJenisLokasi: Array
     },
     async mounted() {
+        console.log("sempak "+this.dataDusun);
+        this.dataJenisLokasi.forEach((item,key)=>{
+          this.panelJenisLokasi.push(key);
+        });
         this.content="home";
         this.latLong.lat = this.dataDusun[0].Latitude;
         this.latLong.long = this.dataDusun[0].Longitude;
         this.home();
+        this.dataDusun2 = Array.from(this.dataDusun)
+       this.dataDusun2.unshift({id:-1, name:"Semua Dusun"});
+        console.log(this.dataDusun2);
+        this.select = this.dataDusun2[0]
         //this.initMap();
     },
     data: function(){
-      //name: 'google-map',
+      //name: 'google-map', v-model-
       return {
+        dataDusun2:[],
+         select: null,
+        items: [],
+        panelJenisLokasi:[],
         dataPenduduk:{
             series: [],
             chartOptions: {
@@ -230,6 +278,7 @@
            chartOptions:piramidaPenduduk.chartOptions,
             series:piramidaPenduduk.series
         },
+        markers:[],
         menu2: -1,
         menu1: 0,
         drawer: null,
@@ -249,19 +298,107 @@
       }
       //mapName: this.name + "-map",
     },
+    watch:{
+      select:function(val){
+        this.piramida(val);
+        //console.log(val);
+      }
+    },
     methods:{
+        asu:function(data){
+          console.log(this.select)
+        },
+        piramida:function(dusun){
+            console.log(dusun.id+" "+dusun.name);
+            axios.get('/piramidaPenduduk/'+dusun.id).then((response)=>{
+              console.log(response.data);
+              let categories = [];
+                let series=[
+                  {name:'Laki-laki', data:[]},
+                  {name:'Perempuan', data:[]},
+                ];
+              
+              response.data.forEach((value,key)=>{
+                  series[0].data.push(value.data.L);
+                  series[1].data.push(value.data.P*-1);
+                  series
+                 categories.push(value.name);
+              });
+              this.dataByPiramidaPenduduk.series=series;
+              this.dataByPiramidaPenduduk.chartOptions = {...this.dataByPiramidaPenduduk.chartOptions, ...{
+                        xaxis: {
+                          categories: categories,
+                        }
+                      }
+                  }
+
+            });
+        },
         test:function(data){
+            //console.log("sempak")  
             this.content = 'map';
             console.log(this.content);
             this.latLong.lat = data.Latitude;
             this.latLong.long = data.Longitude;
+
             this.initMap(); 
-            console.log(this.latLong.lat);
+            //console.log(this.latLong.lat);
+        },
+        addMarker:function(location, map) {
+            var contentString = "<div style='float:left'><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo__msLhE89yumL5XTsa3REU0vrKgsN1myKOalFUY9Z7ZYbV_e'></div><div style='float:right; padding: 10px;'><b>Title</b><br/>Here’s the fastest way to check the status of your shipment. No need to call Customer Service – our online results give you real-time, detailed progress as your shipment speeds through the DHL network.<br/> City,Country</div>";
+
+
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString
+              });
+             var pin = {
+              path: MAP_PIN,
+              fillColor: 'yellow',
+              fillOpacity: 0.8,
+              scale: 1,
+              strokeColor: 'gold',
+              strokeWeight: 1,
+            
+              labelOrigin: new google.maps.Point(0,-20)
+            };
+
+            // var marker = new MarkerWithLabel({
+            //   position: location,
+            //   map: map,
+            //   icon:pin,
+            //   animation: google.maps.Animation.BOUNCE,
+
+            //   draggable: true,
+            //   raiseOnDrag: true,
+            //   labelContent: "A",
+            //   labelAnchor: new google.maps.Point(3, 30),
+            //   labelInBackground: false
+            // });
+              var marker = new google.maps.Marker({
+                position: location,
+                draggable: true,
+                //animation: google.maps.Animation.BOUNCE,
+                map: map,
+                map_icon_label: '<i class="fab fa-500px"></i>',
+
+                icon:{
+                  path: MAP_PIN,
+                  fillColor: '#ff00ff',
+                  fillOpacity: 1,
+                  strokeColor: '',
+                  strokeWeight: 0
+                },
+              });
+              marker.addListener('click', function() {
+                infowindow.open(map, marker);
+              });
+              this.markers.push(marker);
+              console.log(marker.getPosition().lat()+"\n"+marker.getPosition().lng());
         },
         home:function(){
             this.content="home";
             axios.get('/carousel').then((response)=>{
-              console.log(response.data);
+              //console.log(response.data);
               this.carousels=response.data;
             });
             axios.get('/dataPenduduk').then((response)=>{
@@ -276,7 +413,7 @@
                         labels:labels
                       }
                   }
-                console.log(this.dataPenduduk.chartOptions.labels);
+               // console.log(this.dataPenduduk.chartOptions.labels);
                
             });
             axios.get('/dataPendudukByGender').then((response)=>{
@@ -299,7 +436,7 @@
                         }
                       }
                   }
-              console.log(this.dataByGender.series)
+              //console.log(this.dataByGender.series)
             });
 
             axios.get('/dataPendudukByAgama').then((response)=>{
@@ -398,34 +535,31 @@
                   }
 
             });
-            axios.get('/piramidaPenduduk').then((response)=>{
-              //let series = [];
-              let categories = [];
-                let series=[
-                  {name:'Laki-laki', data:[]},
-                  {name:'Perempuan', data:[]},
-                ];
+            // axios.get('/piramidaPenduduk').then((response)=>{
+            //   let categories = [];
+            //     let series=[
+            //       {name:'Laki-laki', data:[]},
+            //       {name:'Perempuan', data:[]},
+            //     ];
               
-              response.data.forEach((value,key)=>{
-                  series[0].data.push(value.data.L);
-                  series[1].data.push(value.data.P*-1);
-                  series
-                 categories.push(value.name);
-              });
-              console.log(series);
-              //return;
-                this.dataByPiramidaPenduduk.series=series;
-               this.dataByPiramidaPenduduk.chartOptions = {...this.dataByPiramidaPenduduk.chartOptions, ...{
-                        xaxis: {
-                          categories: categories,
-                        }
-                      }
-                  }
+            //   response.data.forEach((value,key)=>{
+            //       series[0].data.push(value.data.L);
+            //       series[1].data.push(value.data.P*-1);
+            //       series
+            //      categories.push(value.name);
+            //   });
+            //   this.dataByPiramidaPenduduk.series=series;
+            //   this.dataByPiramidaPenduduk.chartOptions = {...this.dataByPiramidaPenduduk.chartOptions, ...{
+            //             xaxis: {
+            //               categories: categories,
+            //             }
+            //           }
+            //       }
 
-            });
+            // });
         },
         initMap:function(){
-          console.log(this.dataDusun);     
+          
           const element = document.getElementById("map")
           const options = {
             zoom: 16,
@@ -433,8 +567,10 @@
             mapTypeId: google.maps.MapTypeId.HYBRID 
           }
           const map = new google.maps.Map(element, options)
-
-          console.log(element)  
+           google.maps.event.addListener(map, 'click', (event)=> {
+            this.addMarker(event.latLng, map);
+          });
+                 
       },
     },
     
@@ -447,4 +583,11 @@
   margin: auto;
   background: gray;
 }
+ .map-icon-label i {
+                font-size: 24px;
+                color: #FFFFFF;
+                line-height: 55px;
+                text-align: center;
+                white-space: nowrap;
+            }
 </style>

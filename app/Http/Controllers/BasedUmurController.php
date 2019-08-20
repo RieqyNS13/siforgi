@@ -99,9 +99,19 @@ class BasedUmurController extends Controller
        }
        return ['umur'=>Umur::orderBy('id')->get(), 'based_umur'=>$dusun];
     }
-    public function piramidaPenduduk(){
+    public function piramidaPenduduk($dusun_id=null){
        //select b.umur_id,a.name as umur,b.gender as jenkel,sum(b.jumlah) as jumlah from umurs a inner join based_umurs b on a.id=b.umur_id group by a.name,b.gender order by a.id desc,b.id
-        $data = DB::table('umurs')->join('based_umurs','based_umurs.umur_id','=','umurs.id')->select('based_umurs.umur_id','umurs.name as umur', 'based_umurs.gender as jenkel', DB::raw('sum(based_umurs.jumlah) as jumlah_data'))->groupBy('umurs.name', 'based_umurs.gender')->orderBy('umurs.id','desc')->orderBy('based_umurs.id')->get();
+        $dusuns = Dusun::get();
+        $dusun_index = $dusuns->search(function($item, $key)use($dusun_id){
+            return $item->id==$dusun_id;
+        });
+
+        $data = DB::table('umurs')->join('based_umurs','based_umurs.umur_id','=','umurs.id')->join('rukun_tetanggas','rukun_tetanggas.id','=','based_umurs.rukun_tetangga_id')->select('based_umurs.umur_id','umurs.name as umur', 'based_umurs.gender as jenkel', DB::raw('sum(based_umurs.jumlah) as jumlah_data'))->groupBy('umurs.name', 'based_umurs.gender')->orderBy('umurs.id','desc')->orderBy('based_umurs.id');
+
+        if($dusun_index!==false){
+            $data=$data->where('rukun_tetanggas.dusun_id','=',$dusuns[$dusun_index]->id);
+        }
+        $data = $data->get();
         //return $data;
         //dd($data);
         $umurs = Umur::orderBy('id','desc')->get();

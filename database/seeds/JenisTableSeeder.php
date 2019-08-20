@@ -14,6 +14,7 @@ class JenisTableSeeder extends Seeder
         $data=[
         	['name'=>'UMKM','description'=>'Usaha produktif yang dimiliki perorangan maupun badan usaha yang telah memenuhi kriteria sebagai usaha mikro'],
         	['name'=>'Potensi Desa','description'=>'Usaha produktif yang dimiliki perorangan maupun badan usaha yang telah memenuhi kriteria sebagai usaha mikro'],
+            ['name'=>'Perangkat Desa']
 
         ];
         foreach($data as $data_){

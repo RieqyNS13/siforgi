@@ -23,7 +23,7 @@ Route::get('/dataPendudukByAgama', "BasedAgamaController@dataPendudukByAgama");
 Route::get('/dataPendudukByGoldar', "BasedGoldarController@dataPendudukByGoldar");
 Route::get('/dataPendudukByPendidikan', "BasedPendidikanController@dataPendudukByPendidikan");
 Route::get('/dataPendudukByUmur', "BasedUmurController@dataPendudukByUmur");
-Route::get('/piramidaPenduduk', 'BasedUmurController@piramidaPenduduk');
+Route::get('/piramidaPenduduk/{dusun_id?}', 'BasedUmurController@piramidaPenduduk');
 Route::get('/test', function(){
 	dd(collect(["L"=>[], "P"=>[]]));
 });

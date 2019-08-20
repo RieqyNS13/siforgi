@@ -26,6 +26,7 @@
     "dependencies": {
         "apexcharts": "^3.8.4",
         "google-maps-api-loader": "^1.1.1",
+        "markerwithlabel": "^2.0.2",
         "vue-apexcharts": "^1.4.0",
         "vue2-google-maps": "^0.10.7",
         "vuetify": "^2.0.2"
