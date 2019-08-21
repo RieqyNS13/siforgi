@@ -2091,6 +2091,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2108,16 +2147,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var _mounted = _asyncToGenerator(
     /*#__PURE__*/
     _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-      var _this = this;
-
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              console.log("sempak " + this.dataDusun);
-              this.dataJenisLokasi.forEach(function (item, key) {
-                _this.panelJenisLokasi.push(key);
-              });
+              console.log("sempak " + this.dataDusun); // this.dataJenisLokasi.forEach((item,key)=>{
+              //   this.panelJenisLokasi.push(key);
+              // });
+
               this.content = "home";
               this.latLong.lat = this.dataDusun[0].Latitude;
               this.latLong["long"] = this.dataDusun[0].Longitude;
@@ -2128,9 +2165,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 name: "Semua Dusun"
               });
               console.log(this.dataDusun2);
-              this.select = this.dataDusun2[0]; //this.initMap();
+              this.select = this.dataDusun2[0]; //console.log(this.dataJenisLokasi);
+              //this.initMap();
 
-            case 10:
+            case 9:
             case "end":
               return _context.stop();
           }
@@ -2147,6 +2185,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     //name: 'google-map', v-model-
     return {
+      selected: [2],
+      items2: [{
+        action: '15 min',
+        headline: 'Brunch this weekend?',
+        title: 'Ali Connors',
+        subtitle: "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?"
+      }, {
+        action: '2 hr',
+        headline: 'Summer BBQ',
+        title: 'me, Scrott, Jennifer',
+        subtitle: "Wish I could come, but I'm out of town this weekend."
+      }, {
+        action: '6 hr',
+        headline: 'Oui oui',
+        title: 'Sandra Adams',
+        subtitle: 'Do you have Paris recommendations? Have you ever been?'
+      }, {
+        action: '12 hr',
+        headline: 'Birthday gift',
+        title: 'Trevor Hansen',
+        subtitle: 'Have any ideas about what we should get Heidi for her birthday?'
+      }, {
+        action: '18hr',
+        headline: 'Recipe to try',
+        title: 'Britta Holt',
+        subtitle: 'We should eat this: Grate, Squash, Corn, and tomatillo Tacos.'
+      }],
       dataDusun2: [],
       select: null,
       items: [],
@@ -2192,6 +2257,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         chartOptions: _charts_piramidaPenduduk_js__WEBPACK_IMPORTED_MODULE_6__["piramidaPenduduk"].chartOptions,
         series: _charts_piramidaPenduduk_js__WEBPACK_IMPORTED_MODULE_6__["piramidaPenduduk"].series
       },
+      current: {
+        Map: null,
+        Dusun: {
+          name: "Ampelgading"
+        }
+      },
       markers: [],
       menu2: -1,
       menu1: 0,
@@ -2209,14 +2280,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   watch: {
     select: function select(val) {
       this.piramida(val); //console.log(val);
+    },
+    selected: function selected(val) {
+      console.log(val);
     }
   },
   methods: {
     asu: function asu(data) {
       console.log(this.select);
     },
+    getImagePath: function getImagePath(data) {
+      if (data.name == "UMKM") return "img/umkm/" + this.current.Dusun.name + '.png';else if (data.name == "Potensi Desa") return "img/potensi_desa/" + this.current.Dusun.name + '.png';else return "img/perangkat_desa/" + this.current.Dusun.name + '.png';
+    },
     piramida: function piramida(dusun) {
-      var _this2 = this;
+      var _this = this;
 
       console.log(dusun.id + " " + dusun.name);
       axios.get('/piramidaPenduduk/' + dusun.id).then(function (response) {
@@ -2235,60 +2312,78 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           series;
           categories.push(value.name);
         });
-        _this2.dataByPiramidaPenduduk.series = series;
-        _this2.dataByPiramidaPenduduk.chartOptions = _objectSpread({}, _this2.dataByPiramidaPenduduk.chartOptions, {}, {
+        _this.dataByPiramidaPenduduk.series = series;
+        _this.dataByPiramidaPenduduk.chartOptions = _objectSpread({}, _this.dataByPiramidaPenduduk.chartOptions, {}, {
           xaxis: {
             categories: categories
           }
         });
       });
     },
-    test: function test(data) {
+    klikLokasi: function klikLokasi() {
+      alert('asd');
+    },
+    changeMap: function changeMap(data) {
       //console.log("sempak")  
       this.content = 'map';
-      console.log(this.content);
+      console.log(data);
       this.latLong.lat = data.Latitude;
       this.latLong["long"] = data.Longitude;
-      this.initMap(); //console.log(this.latLong.lat);
+      this.current.Dusun = data;
+      this.dataJenisLokasi.forEach(function (value, key) {
+        value.data = [];
+        value.markers = [];
+      });
+      this.panelJenisLokasi = [];
+      this.initMap();
+      this.loadMarkers(data); // this.dataJenisLokasi.forEach((item,key)=>{
+      //   this.panelJenisLokasi.push(key);
+      // });
+      //console.log(this.dataJenisLokasi);
+    },
+    loadMarkers: function loadMarkers(dusun) {
+      var _this2 = this;
+
+      axios.get('/getLocations/' + dusun.id).then(function (response) {
+        _this2.dataJenisLokasi.forEach(function (value, key) {
+          response.data.forEach(function (value2, key2) {
+            if (value.id == value2.jenis.id) {
+              value.data.push(value2);
+            }
+
+            var marker = _this2.addMarker2(value2);
+
+            value.markers.push(marker);
+          });
+        });
+      });
+      console.log("marker");
+      console.log(this.dataJenisLokasi); // console.log(this.dataJenisLokasi);
+    },
+    addMarker2: function addMarker2(data) {
+      var folder;
+      if (data.jenis.name == "Perangkat Desa") folder = "perangkat_desa";else if (data.jenis.name == "Potensi Desa") folder = "potensi_desa";else folder = "umkm";
+      var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(data.Latitude, data.Longitude),
+        //draggable: true,
+        //animation: google.maps.Animation.BOUNCE,
+        map: this.current.Map,
+        icon: 'img/' + folder + '/' + data.dusun.name + '.png'
+      });
+      return marker;
     },
     addMarker: function addMarker(location, map) {
-      var contentString = "<div style='float:left'><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo__msLhE89yumL5XTsa3REU0vrKgsN1myKOalFUY9Z7ZYbV_e'></div><div style='float:right; padding: 10px;'><b>Title</b><br/>Here’s the fastest way to check the status of your shipment. No need to call Customer Service – our online results give you real-time, detailed progress as your shipment speeds through the DHL network.<br/> City,Country</div>";
+      var contentString = "<div style='float:left'><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo__msLhE89yumL5XTsa3REU0vrKgsN1myKOalFUY9Z7ZYbV_e'></div><div style='float:right; padding: 10px;'><b>Title</b><br/>Here’s the fastest way to check the status of your shipment. No need to call Customer Service – our online results give you real-time, detailed progress as your shipment speeds through the DHL network.<br/> City,Country</div>"; //if(this.current.Dusun.
+
       var infowindow = new google.maps.InfoWindow({
         content: contentString
       });
-      var pin = {
-        path: MAP_PIN,
-        fillColor: 'yellow',
-        fillOpacity: 0.8,
-        scale: 1,
-        strokeColor: 'gold',
-        strokeWeight: 1,
-        labelOrigin: new google.maps.Point(0, -20)
-      }; // var marker = new MarkerWithLabel({
-      //   position: location,
-      //   map: map,
-      //   icon:pin,
-      //   animation: google.maps.Animation.BOUNCE,
-      //   draggable: true,
-      //   raiseOnDrag: true,
-      //   labelContent: "A",
-      //   labelAnchor: new google.maps.Point(3, 30),
-      //   labelInBackground: false
-      // });
-
       var marker = new google.maps.Marker({
         position: location,
         draggable: true,
         //animation: google.maps.Animation.BOUNCE,
         map: map,
-        map_icon_label: '<i class="fab fa-500px"></i>',
-        icon: {
-          path: MAP_PIN,
-          fillColor: '#ff00ff',
-          fillOpacity: 1,
-          strokeColor: '',
-          strokeWeight: 0
-        }
+        icon: 'img/perangkat_desa/Ampelgading.png'
       });
       marker.addListener('click', function () {
         infowindow.open(map, marker);
@@ -2461,8 +2556,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         mapTypeId: google.maps.MapTypeId.HYBRID
       };
       var map = new google.maps.Map(element, options);
+      this.current.Map = map;
       google.maps.event.addListener(map, 'click', function (event) {
         _this4.addMarker(event.latLng, map);
+
+        console.log(event.latLng);
       });
     }
   }
@@ -6985,7 +7083,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.google-map[data-v-299e239e] {\n  width: 100%;\n  height: 600px;\n  margin: auto;\n  background: gray;\n}\n.map-icon-label i[data-v-299e239e] {\n                font-size: 24px;\n                color: #FFFFFF;\n                line-height: 55px;\n                text-align: center;\n                white-space: nowrap;\n}\n", ""]);
+exports.push([module.i, "\n.google-map[data-v-299e239e] {\n  width: 100%;\n  height: 600px;\n  margin: auto;\n  background: gray;\n}\n.map-icon-label .map-icon[data-v-299e239e] {\n  font-size: 24px;\n  color: #FFFFFF;\n  line-height: 48px;\n  text-align: center;\n  white-space: nowrap;\n}\n", ""]);
 
 // exports
 
@@ -40238,7 +40336,7 @@ var render = function() {
                               attrs: { link: "" },
                               on: {
                                 click: function($event) {
-                                  return _vm.test(dusun)
+                                  return _vm.changeMap(dusun)
                                 }
                               }
                             },
@@ -40568,17 +40666,143 @@ var render = function() {
                         _vm._l(_vm.dataJenisLokasi, function(item, i) {
                           return _c(
                             "v-expansion-panel",
-                            { key: i },
+                            { key: i, staticClass: "text-truncate" },
                             [
-                              _c("v-expansion-panel-header", [
-                                _vm._v(_vm._s(item.name))
-                              ]),
+                              _c(
+                                "v-expansion-panel-header",
+                                [
+                                  _c(
+                                    "v-list-item",
+                                    { attrs: { "two-line": "" } },
+                                    [
+                                      _c(
+                                        "v-list-item-content",
+                                        [
+                                          _c("v-list-item-title", [
+                                            _vm._v(_vm._s(item.name))
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("v-list-item-subtitle", [
+                                            _vm._v(_vm._s(item.description))
+                                          ])
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
                               _vm._v(" "),
-                              _c("v-expansion-panel-content", [
-                                _vm._v(
-                                  "\n          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n        "
-                                )
-                              ])
+                              _c(
+                                "v-expansion-panel-content",
+                                [
+                                  _c("v-img", {
+                                    staticClass: "grey lighten-2",
+                                    attrs: {
+                                      src: _vm.getImagePath(item),
+                                      "aspect-ratio": "1",
+                                      height: "50",
+                                      width: "50"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("v-divider"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list",
+                                    { attrs: { "two-line": "" } },
+                                    [
+                                      _c(
+                                        "v-list-item-group",
+                                        {
+                                          model: {
+                                            value: _vm.selected,
+                                            callback: function($$v) {
+                                              _vm.selected = $$v
+                                            },
+                                            expression: "selected"
+                                          }
+                                        },
+                                        [
+                                          _vm._l(item.data, function(
+                                            location,
+                                            index
+                                          ) {
+                                            return [
+                                              _c("v-list-item", {
+                                                key: location.title,
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.klikLokasi(
+                                                      i,
+                                                      index
+                                                    )
+                                                  }
+                                                },
+                                                scopedSlots: _vm._u(
+                                                  [
+                                                    {
+                                                      key: "default",
+                                                      fn: function(ref) {
+                                                        var active = ref.active
+                                                        var toggle = ref.toggle
+                                                        return [
+                                                          _c(
+                                                            "v-list-item-content",
+                                                            [
+                                                              _c(
+                                                                "v-list-item-title",
+                                                                {
+                                                                  domProps: {
+                                                                    textContent: _vm._s(
+                                                                      location.name
+                                                                    )
+                                                                  }
+                                                                }
+                                                              ),
+                                                              _vm._v(" "),
+                                                              _c(
+                                                                "v-list-item-subtitle",
+                                                                {
+                                                                  staticClass:
+                                                                    "text--primary",
+                                                                  domProps: {
+                                                                    textContent: _vm._s(
+                                                                      location.description
+                                                                    )
+                                                                  }
+                                                                }
+                                                              )
+                                                            ],
+                                                            1
+                                                          )
+                                                        ]
+                                                      }
+                                                    }
+                                                  ],
+                                                  null,
+                                                  true
+                                                )
+                                              }),
+                                              _vm._v(" "),
+                                              index + 1 < item.data.length
+                                                ? _c("v-divider", {
+                                                    key: index
+                                                  })
+                                                : _vm._e()
+                                            ]
+                                          })
+                                        ],
+                                        2
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
                             ],
                             1
                           )

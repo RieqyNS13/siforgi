@@ -116,8 +116,7 @@ class BasedUmurController extends Controller
         //dd($data);
         $umurs = Umur::orderBy('id','desc')->get();
         foreach($umurs as $key=>$umur)$umurs[$key]->data = collect(["L"=>collect([]),"P"=>collect([])]);
-        //return $umurs;
-         //dd($umurs);
+       
         foreach($data as $key=>$value){
             $umur_index = $umurs->search(function($item, $key)use($value){
                 return $item->id==$value->umur_id;
@@ -128,4 +127,5 @@ class BasedUmurController extends Controller
         return $umurs;
         //return ['a'=>$umur, 'b'=>BasedUmur::orderBy('id')->get()];
     }
+    
 }

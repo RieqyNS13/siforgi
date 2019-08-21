@@ -26,6 +26,6 @@ class DatabaseSeeder extends Seeder
         $this->call(BasedPendidikanTableSeeder::class);
         $this->call(UmursTableSeeder::class);
         $this->call(BasedUmurTableSeeder::class);
-
+        $this->call(LocationsTableSeeder::class);
     }
 }

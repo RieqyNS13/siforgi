@@ -42,7 +42,7 @@
             v-for="(dusun, i) in dataDusun"
             :key="i"
             link
-            @click="test(dusun)" 
+            @click="changeMap(dusun)" 
           >
             <v-list-item-title v-text="dusun.name"></v-list-item-title>
             <v-list-item-icon>
@@ -171,17 +171,56 @@
 
        <v-col cols="12">
          <v-expansion-panels
-     multiple
+         multiple
       v-model="panelJenisLokasi"
     >
-      <v-expansion-panel
+      <v-expansion-panel class="text-truncate"
         v-for="(item,i) in dataJenisLokasi"
         :key="i"
 
       >
-        <v-expansion-panel-header>{{item.name}}</v-expansion-panel-header>
+        <v-expansion-panel-header>
+           <v-list-item two-line>
+            <v-list-item-content>
+              <v-list-item-title>{{item.name}}</v-list-item-title>
+              <v-list-item-subtitle>{{item.description}}</v-list-item-subtitle>
+            </v-list-item-content>
+           </v-list-item>
+
+
+        </v-expansion-panel-header>
         <v-expansion-panel-content>
+          <v-img :src="getImagePath(item)"
+          aspect-ratio="1" height=50 width=50 class="grey lighten-2"></v-img>
+<v-divider></v-divider>
+               <v-list two-line>
+      <v-list-item-group
+        v-model="selected"
+      >
+        <template v-for="(location, index) in item.data">
+          <v-list-item :key="location.title" @click="klikLokasi(i, index)">
+            <template v-slot:default="{ active, toggle }">
+              <v-list-item-content>
+                <v-list-item-title v-text="location.name"></v-list-item-title>
+                <v-list-item-subtitle class="text--primary" v-text="location.description"></v-list-item-subtitle>
+                <!-- <v-list-item-subtitle v-text="item.subtitle"></v-list-item-subtitle> -->
+              </v-list-item-content>
+
+         
+            </template>
+          </v-list-item>
+
+          <v-divider
+            v-if="index + 1 < item.data.length"
+            :key="index"
+          ></v-divider>
+        </template>
+      </v-list-item-group>
+    </v-list>
+
+          <!-- <span v-for="(item2, i2) in item.data">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          </span> -->
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -217,22 +256,59 @@
     },
     async mounted() {
         console.log("sempak "+this.dataDusun);
-        this.dataJenisLokasi.forEach((item,key)=>{
-          this.panelJenisLokasi.push(key);
-        });
+        // this.dataJenisLokasi.forEach((item,key)=>{
+        //   this.panelJenisLokasi.push(key);
+        // });
         this.content="home";
         this.latLong.lat = this.dataDusun[0].Latitude;
         this.latLong.long = this.dataDusun[0].Longitude;
         this.home();
         this.dataDusun2 = Array.from(this.dataDusun)
-       this.dataDusun2.unshift({id:-1, name:"Semua Dusun"});
+        this.dataDusun2.unshift({id:-1, name:"Semua Dusun"});
         console.log(this.dataDusun2);
-        this.select = this.dataDusun2[0]
+        this.select = this.dataDusun2[0];
+       
+        //console.log(this.dataJenisLokasi);
+
+
         //this.initMap();
     },
     data: function(){
       //name: 'google-map', v-model-
       return {
+         selected: [2],
+         items2: [
+        {
+          action: '15 min',
+          headline: 'Brunch this weekend?',
+          title: 'Ali Connors',
+          subtitle: "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
+        },
+        {
+          action: '2 hr',
+          headline: 'Summer BBQ',
+          title: 'me, Scrott, Jennifer',
+          subtitle: "Wish I could come, but I'm out of town this weekend.",
+        },
+        {
+          action: '6 hr',
+          headline: 'Oui oui',
+          title: 'Sandra Adams',
+          subtitle: 'Do you have Paris recommendations? Have you ever been?',
+        },
+        {
+          action: '12 hr',
+          headline: 'Birthday gift',
+          title: 'Trevor Hansen',
+          subtitle: 'Have any ideas about what we should get Heidi for her birthday?',
+        },
+        {
+          action: '18hr',
+          headline: 'Recipe to try',
+          title: 'Britta Holt',
+          subtitle: 'We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
+        },
+      ],
         dataDusun2:[],
          select: null,
         items: [],
@@ -241,8 +317,8 @@
             series: [],
             chartOptions: {
                title: {
-            text: 'Persentase Jumlah Penduduk'
-          },
+                text: 'Persentase Jumlah Penduduk'
+            },
               labels: [],
               chart: {
                 toolbar: {
@@ -278,6 +354,12 @@
            chartOptions:piramidaPenduduk.chartOptions,
             series:piramidaPenduduk.series
         },
+        current:{
+          Map:null,
+          Dusun:{
+            name:"Ampelgading"
+          }
+        },
         markers:[],
         menu2: -1,
         menu1: 0,
@@ -302,11 +384,19 @@
       select:function(val){
         this.piramida(val);
         //console.log(val);
+      },
+      selected:function(val){
+          console.log(val);
       }
     },
     methods:{
         asu:function(data){
           console.log(this.select)
+        },
+        getImagePath:function(data){
+          if(data.name=="UMKM")return "img/umkm/"+this.current.Dusun.name+'.png';
+          else if(data.name=="Potensi Desa")return "img/potensi_desa/"+this.current.Dusun.name+'.png';
+          else return "img/perangkat_desa/"+this.current.Dusun.name+'.png';
         },
         piramida:function(dusun){
             console.log(dusun.id+" "+dusun.name);
@@ -334,60 +424,76 @@
 
             });
         },
-        test:function(data){
+        klikLokasi:function(){
+          alert('asd')
+        },
+        changeMap:function(data){
             //console.log("sempak")  
             this.content = 'map';
-            console.log(this.content);
+            console.log(data);
             this.latLong.lat = data.Latitude;
             this.latLong.long = data.Longitude;
-
+            this.current.Dusun = data;
+            this.dataJenisLokasi.forEach((value,key)=>{
+              value.data=[];
+              value.markers=[];
+            });
+            this.panelJenisLokasi=[];
             this.initMap(); 
-            //console.log(this.latLong.lat);
+            this.loadMarkers(data);
+            // this.dataJenisLokasi.forEach((item,key)=>{
+            //   this.panelJenisLokasi.push(key);
+            // });
+            //console.log(this.dataJenisLokasi);
+        },
+        loadMarkers:function(dusun){
+
+            axios.get('/getLocations/'+dusun.id).then((response)=>{
+              this.dataJenisLokasi.forEach((value,key)=>{
+                  response.data.forEach((value2,key2)=>{
+                    if(value.id==value2.jenis.id){
+                        value.data.push(value2)
+                    }
+                    let marker = this.addMarker2(value2)
+                    value.markers.push(marker);
+                  });
+              });
+              
+               
+            });
+            console.log("marker");
+            console.log(this.dataJenisLokasi  )
+           // console.log(this.dataJenisLokasi);
+        },
+        addMarker2:function(data){
+          let folder;
+          if(data.jenis.name=="Perangkat Desa")folder="perangkat_desa";
+          else if(data.jenis.name=="Potensi Desa")folder="potensi_desa";
+          else folder="umkm";
+          let marker = new google.maps.Marker({
+                position: new google.maps.LatLng(data.Latitude,data.Longitude),
+                //draggable: true,
+                //animation: google.maps.Animation.BOUNCE,
+                map: this.current.Map,
+                icon:'img/'+folder+'/'+data.dusun.name+'.png',
+            });
+          return marker;
         },
         addMarker:function(location, map) {
             var contentString = "<div style='float:left'><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo__msLhE89yumL5XTsa3REU0vrKgsN1myKOalFUY9Z7ZYbV_e'></div><div style='float:right; padding: 10px;'><b>Title</b><br/>Here’s the fastest way to check the status of your shipment. No need to call Customer Service – our online results give you real-time, detailed progress as your shipment speeds through the DHL network.<br/> City,Country</div>";
 
+              //if(this.current.Dusun.
 
-            var infowindow = new google.maps.InfoWindow({
+              var infowindow = new google.maps.InfoWindow({
                 content: contentString
               });
-             var pin = {
-              path: MAP_PIN,
-              fillColor: 'yellow',
-              fillOpacity: 0.8,
-              scale: 1,
-              strokeColor: 'gold',
-              strokeWeight: 1,
-            
-              labelOrigin: new google.maps.Point(0,-20)
-            };
-
-            // var marker = new MarkerWithLabel({
-            //   position: location,
-            //   map: map,
-            //   icon:pin,
-            //   animation: google.maps.Animation.BOUNCE,
-
-            //   draggable: true,
-            //   raiseOnDrag: true,
-            //   labelContent: "A",
-            //   labelAnchor: new google.maps.Point(3, 30),
-            //   labelInBackground: false
-            // });
+              
               var marker = new google.maps.Marker({
                 position: location,
                 draggable: true,
                 //animation: google.maps.Animation.BOUNCE,
                 map: map,
-                map_icon_label: '<i class="fab fa-500px"></i>',
-
-                icon:{
-                  path: MAP_PIN,
-                  fillColor: '#ff00ff',
-                  fillOpacity: 1,
-                  strokeColor: '',
-                  strokeWeight: 0
-                },
+                icon:'img/perangkat_desa/Ampelgading.png',
               });
               marker.addListener('click', function() {
                 infowindow.open(map, marker);
@@ -567,8 +673,10 @@
             mapTypeId: google.maps.MapTypeId.HYBRID 
           }
           const map = new google.maps.Map(element, options)
+          this.current.Map=map;
            google.maps.event.addListener(map, 'click', (event)=> {
             this.addMarker(event.latLng, map);
+            console.log(event.latLng);
           });
                  
       },
@@ -583,11 +691,11 @@
   margin: auto;
   background: gray;
 }
- .map-icon-label i {
-                font-size: 24px;
-                color: #FFFFFF;
-                line-height: 55px;
-                text-align: center;
-                white-space: nowrap;
-            }
+.map-icon-label .map-icon {
+  font-size: 24px;
+  color: #FFFFFF;
+  line-height: 48px;
+  text-align: center;
+  white-space: nowrap;
+}
 </style>

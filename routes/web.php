@@ -24,8 +24,9 @@ Route::get('/dataPendudukByGoldar', "BasedGoldarController@dataPendudukByGoldar"
 Route::get('/dataPendudukByPendidikan', "BasedPendidikanController@dataPendudukByPendidikan");
 Route::get('/dataPendudukByUmur', "BasedUmurController@dataPendudukByUmur");
 Route::get('/piramidaPenduduk/{dusun_id?}', 'BasedUmurController@piramidaPenduduk');
+Route::get('/getLocations/{dusun_id?}', 'LocationController@getLocations');
 Route::get('/test', function(){
-	dd(collect(["L"=>[], "P"=>[]]));
+	return App\Jenis::with('locations')->get();
 });
 
 Auth::routes();
