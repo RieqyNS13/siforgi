@@ -2159,11 +2159,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               this.latLong.lat = this.dataDusun[0].Latitude;
               this.latLong["long"] = this.dataDusun[0].Longitude;
               this.home();
-              this.dataDusun2 = Array.from(this.dataDusun);
-              this.dataDusun2.unshift({
+              this.dataDusun.unshift({
                 id: -1,
                 name: "Semua Dusun"
               });
+              this.dataDusun2 = Array.from(this.dataDusun); //this.dataDusun2.unshift({id:-1, name:"Semua Dusun"});
+
               console.log(this.dataDusun2);
               this.select = this.dataDusun2[0]; //console.log(this.dataJenisLokasi);
               //this.initMap();

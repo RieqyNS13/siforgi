@@ -263,8 +263,9 @@
         this.latLong.lat = this.dataDusun[0].Latitude;
         this.latLong.long = this.dataDusun[0].Longitude;
         this.home();
+        this.dataDusun.unshift({id:-1, name:"Semua Dusun"})
         this.dataDusun2 = Array.from(this.dataDusun)
-        this.dataDusun2.unshift({id:-1, name:"Semua Dusun"});
+        //this.dataDusun2.unshift({id:-1, name:"Semua Dusun"});
         console.log(this.dataDusun2);
         this.select = this.dataDusun2[0];
        
