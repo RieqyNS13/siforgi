@@ -2281,8 +2281,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     select: function select(val) {
       this.piramida(val); //console.log(val);
     },
-    selected: function selected(val) {
-      console.log(val);
+    selected: function selected(val) {//console.log(val);
     }
   },
   methods: {
@@ -2320,8 +2319,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         });
       });
     },
-    klikLokasi: function klikLokasi() {
-      alert('asd');
+    klikLokasi: function klikLokasi(jenis_index, lokasi_index) {
+      this.dataJenisLokasi[jenis_index].is_active[lokasi_index] = !this.dataJenisLokasi[jenis_index].is_active[lokasi_index];
+
+      if (this.dataJenisLokasi[jenis_index].is_active[lokasi_index]) {
+        this.dataJenisLokasi[jenis_index].markers[lokasi_index].setAnimation(google.maps.Animation.BOUNCE);
+      } else {
+        this.dataJenisLokasi[jenis_index].markers[lokasi_index].setAnimation(google.maps.Animation.STOP);
+      } //window.scrollTo(0,0);
+      // this.dataJenisLokasi.forEach((item,key)=>{
+      //   item.markers.forEach((item2,key2)=>{
+      //     if(item2.getAnimation() !== null)item2. (null);
+      //   });
+      // });
+      // let map=this.dataJenisLokasi[jenis_index].markers[lokasi_index];
+      // if(map.getAnimation() === null){
+      //  alert('as');
+      //   map.setAnimation(google.maps.Animation.BOUNCE);
+      // }
+
     },
     changeMap: function changeMap(data) {
       //console.log("sempak")  
@@ -2333,6 +2349,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.dataJenisLokasi.forEach(function (value, key) {
         value.data = [];
         value.markers = [];
+        value.is_active = [];
       });
       this.panelJenisLokasi = [];
       this.initMap();
@@ -2349,11 +2366,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           response.data.forEach(function (value2, key2) {
             if (value.id == value2.jenis.id) {
               value.data.push(value2);
+
+              var marker = _this2.addMarker2(value2);
+
+              value.markers.push(marker);
+              value.is_active.push(false);
             }
-
-            var marker = _this2.addMarker2(value2);
-
-            value.markers.push(marker);
           });
         });
       });

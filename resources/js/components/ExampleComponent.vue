@@ -386,7 +386,7 @@
         //console.log(val);
       },
       selected:function(val){
-          console.log(val);
+          //console.log(val);
       }
     },
     methods:{
@@ -424,8 +424,24 @@
 
             });
         },
-        klikLokasi:function(){
-          alert('asd')
+        klikLokasi:function(jenis_index, lokasi_index){
+          this.dataJenisLokasi[jenis_index].is_active[lokasi_index]=!this.dataJenisLokasi[jenis_index].is_active[lokasi_index];
+          if(this.dataJenisLokasi[jenis_index].is_active[lokasi_index]){
+            this.dataJenisLokasi[jenis_index].markers[lokasi_index].setAnimation(google.maps.Animation.BOUNCE);
+          }else{
+            this.dataJenisLokasi[jenis_index].markers[lokasi_index].setAnimation(google.maps.Animation.STOP);
+          }
+          //window.scrollTo(0,0);
+          // this.dataJenisLokasi.forEach((item,key)=>{
+          //   item.markers.forEach((item2,key2)=>{
+          //     if(item2.getAnimation() !== null)item2. (null);
+          //   });
+          // });
+          // let map=this.dataJenisLokasi[jenis_index].markers[lokasi_index];
+          // if(map.getAnimation() === null){
+          //  alert('as');
+          //   map.setAnimation(google.maps.Animation.BOUNCE);
+          // }
         },
         changeMap:function(data){
             //console.log("sempak")  
@@ -437,6 +453,7 @@
             this.dataJenisLokasi.forEach((value,key)=>{
               value.data=[];
               value.markers=[];
+              value.is_active=[];
             });
             this.panelJenisLokasi=[];
             this.initMap(); 
@@ -453,16 +470,18 @@
                   response.data.forEach((value2,key2)=>{
                     if(value.id==value2.jenis.id){
                         value.data.push(value2)
+                        let marker = this.addMarker2(value2)
+                        value.markers.push(marker);
+                        value.is_active.push(false);
                     }
-                    let marker = this.addMarker2(value2)
-                    value.markers.push(marker);
+                   
                   });
               });
               
                
             });
             console.log("marker");
-            console.log(this.dataJenisLokasi  )
+            console.log(this.dataJenisLokasi);
            // console.log(this.dataJenisLokasi);
         },
         addMarker2:function(data){
