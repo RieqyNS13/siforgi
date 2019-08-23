@@ -2130,6 +2130,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2158,14 +2170,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               this.content = "home";
               this.latLong.lat = this.dataDusun[0].Latitude;
               this.latLong["long"] = this.dataDusun[0].Longitude;
-              this.home();
-              this.dataDusun.unshift({
-                id: -1,
-                name: "Semua Dusun"
-              });
-              this.dataDusun2 = Array.from(this.dataDusun); //this.dataDusun2.unshift({id:-1, name:"Semua Dusun"});
+              this.home(); //this.dataDusun.unshift({id:-1, name:"Semua Dusun"})
 
-              console.log(this.dataDusun2);
+              this.dataDusun2 = Array.from(this.dataDusun);
+              console.log("sa");
+              console.log(this.dataDusun); //this.dataDusun2.unshift({id:-1, name:"Semua Dusun"});
+
               this.select = this.dataDusun2[0]; //console.log(this.dataJenisLokasi);
               //this.initMap();
 
@@ -2186,33 +2196,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     //name: 'google-map', v-model-
     return {
-      selected: [2],
-      items2: [{
-        action: '15 min',
-        headline: 'Brunch this weekend?',
-        title: 'Ali Connors',
-        subtitle: "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?"
-      }, {
-        action: '2 hr',
-        headline: 'Summer BBQ',
-        title: 'me, Scrott, Jennifer',
-        subtitle: "Wish I could come, but I'm out of town this weekend."
-      }, {
-        action: '6 hr',
-        headline: 'Oui oui',
-        title: 'Sandra Adams',
-        subtitle: 'Do you have Paris recommendations? Have you ever been?'
-      }, {
-        action: '12 hr',
-        headline: 'Birthday gift',
-        title: 'Trevor Hansen',
-        subtitle: 'Have any ideas about what we should get Heidi for her birthday?'
-      }, {
-        action: '18hr',
-        headline: 'Recipe to try',
-        title: 'Britta Holt',
-        subtitle: 'We should eat this: Grate, Squash, Corn, and tomatillo Tacos.'
-      }],
+      selected: [],
       dataDusun2: [],
       select: null,
       items: [],
@@ -2280,7 +2264,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   watch: {
     select: function select(val) {
-      this.piramida(val); //console.log(val);
+      this.piramida(val);
+      console.log(this.dataDusun);
     },
     selected: function selected(val) {//console.log(val);
     }
@@ -40697,13 +40682,61 @@ var render = function() {
                                       _c(
                                         "v-list-item-content",
                                         [
-                                          _c("v-list-item-title", [
-                                            _vm._v(_vm._s(item.name))
-                                          ]),
-                                          _vm._v(" "),
-                                          _c("v-list-item-subtitle", [
-                                            _vm._v(_vm._s(item.description))
-                                          ])
+                                          _c(
+                                            "v-container",
+                                            [
+                                              _c(
+                                                "v-row",
+                                                [
+                                                  _c(
+                                                    "v-col",
+                                                    { attrs: { cols: "1" } },
+                                                    [
+                                                      _c("v-img", {
+                                                        staticClass:
+                                                          "grey lighten-2",
+                                                        attrs: {
+                                                          src: _vm.getImagePath(
+                                                            item
+                                                          ),
+                                                          "aspect-ratio": "1",
+                                                          height: "50",
+                                                          width: "50"
+                                                        }
+                                                      })
+                                                    ],
+                                                    1
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "v-col",
+                                                    { attrs: { cols: "11" } },
+                                                    [
+                                                      _c("v-list-item-title", [
+                                                        _vm._v(
+                                                          _vm._s(item.name)
+                                                        )
+                                                      ]),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "v-list-item-subtitle",
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              item.description
+                                                            )
+                                                          )
+                                                        ]
+                                                      )
+                                                    ],
+                                                    1
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
                                         ],
                                         1
                                       )
@@ -40717,16 +40750,6 @@ var render = function() {
                               _c(
                                 "v-expansion-panel-content",
                                 [
-                                  _c("v-img", {
-                                    staticClass: "grey lighten-2",
-                                    attrs: {
-                                      src: _vm.getImagePath(item),
-                                      "aspect-ratio": "1",
-                                      height: "50",
-                                      width: "50"
-                                    }
-                                  }),
-                                  _vm._v(" "),
                                   _c("v-divider"),
                                   _vm._v(" "),
                                   _c(
@@ -40736,6 +40759,7 @@ var render = function() {
                                       _c(
                                         "v-list-item-group",
                                         {
+                                          attrs: { multiple: "" },
                                           model: {
                                             value: _vm.selected,
                                             callback: function($$v) {

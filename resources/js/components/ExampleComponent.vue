@@ -182,20 +182,32 @@
         <v-expansion-panel-header>
            <v-list-item two-line>
             <v-list-item-content>
-              <v-list-item-title>{{item.name}}</v-list-item-title>
-              <v-list-item-subtitle>{{item.description}}</v-list-item-subtitle>
+                <v-container>
+                  <v-row>
+                    <v-col cols='1'>
+                         <v-img :src="getImagePath(item)" aspect-ratio="1" height=50 width=50 class="grey lighten-2"></v-img>
+                    </v-col>
+                      <v-col cols='11'>
+                         <v-list-item-title>{{item.name}}</v-list-item-title>
+                         <v-list-item-subtitle>{{item.description}}</v-list-item-subtitle>
+                    </v-col>
+                  </v-row>
+                </v-container>
+             
             </v-list-item-content>
            </v-list-item>
 
 
         </v-expansion-panel-header>
         <v-expansion-panel-content>
-          <v-img :src="getImagePath(item)"
-          aspect-ratio="1" height=50 width=50 class="grey lighten-2"></v-img>
+       <!--  <v-img :src="getImagePath(item)"
+          aspect-ratio="1" height=50 width=50 class="grey lighten-2"></v-img> -->
+
 <v-divider></v-divider>
                <v-list two-line>
       <v-list-item-group
         v-model="selected"
+        multiple
       >
         <template v-for="(location, index) in item.data">
           <v-list-item :key="location.title" @click="klikLokasi(i, index)">
@@ -263,10 +275,11 @@
         this.latLong.lat = this.dataDusun[0].Latitude;
         this.latLong.long = this.dataDusun[0].Longitude;
         this.home();
-        this.dataDusun.unshift({id:-1, name:"Semua Dusun"})
+        //this.dataDusun.unshift({id:-1, name:"Semua Dusun"})
         this.dataDusun2 = Array.from(this.dataDusun)
+        console.log("sa");
+        console.log(this.dataDusun);
         //this.dataDusun2.unshift({id:-1, name:"Semua Dusun"});
-        console.log(this.dataDusun2);
         this.select = this.dataDusun2[0];
        
         //console.log(this.dataJenisLokasi);
@@ -277,39 +290,7 @@
     data: function(){
       //name: 'google-map', v-model-
       return {
-         selected: [2],
-         items2: [
-        {
-          action: '15 min',
-          headline: 'Brunch this weekend?',
-          title: 'Ali Connors',
-          subtitle: "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
-        },
-        {
-          action: '2 hr',
-          headline: 'Summer BBQ',
-          title: 'me, Scrott, Jennifer',
-          subtitle: "Wish I could come, but I'm out of town this weekend.",
-        },
-        {
-          action: '6 hr',
-          headline: 'Oui oui',
-          title: 'Sandra Adams',
-          subtitle: 'Do you have Paris recommendations? Have you ever been?',
-        },
-        {
-          action: '12 hr',
-          headline: 'Birthday gift',
-          title: 'Trevor Hansen',
-          subtitle: 'Have any ideas about what we should get Heidi for her birthday?',
-        },
-        {
-          action: '18hr',
-          headline: 'Recipe to try',
-          title: 'Britta Holt',
-          subtitle: 'We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
-        },
-      ],
+         selected: [],
         dataDusun2:[],
          select: null,
         items: [],
@@ -384,7 +365,8 @@
     watch:{
       select:function(val){
         this.piramida(val);
-        //console.log(val);
+
+        console.log( this.dataDusun);
       },
       selected:function(val){
           //console.log(val);
