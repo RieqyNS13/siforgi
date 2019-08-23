@@ -131,7 +131,7 @@ CP: 085950768133', 'Latitude'=>'-7.23335697', 'Longitude'=>'110.39068802'],
             return $item->name=="Karanglo";
         })]->id, 'jenis_id'=>$jenises[$jenises->search(function($item, $key){
         	return $item->name=="UMKM";
-        })]->id, 'name'=>'Tahu BB Serasi & Susu Kedelai Ibu HJ. Khotijah', 'description'=>'CP: 081325574453', 'Latitude'=>'-7.227590691831425', 'Longitude'=>'110.39398186795802'],
+        })]->id, 'name'=>'Tahu BB Serasi & Susu Kedelai Ibu HJ. Khotijah', 'description'=>'CP: 081325574453', 'Latitude'=>'-7.22365255', 'Longitude'=>'110.39580577'],
 
          ['dusun_id'=>$dusuns[$dusuns->search(function($item, $key){
             return $item->name=="Ampelgading";

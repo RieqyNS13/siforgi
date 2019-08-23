@@ -3505,7 +3505,7 @@ var contentString;
       if (data.jenis.name == "Perangkat Desa") folder = "perangkat_desa";else if (data.jenis.name == "Potensi Desa") folder = "potensi_desa";else folder = "umkm";
       var marker = new google.maps.Marker({
         position: new google.maps.LatLng(data.Latitude, data.Longitude),
-        //draggable: true,
+        draggable: true,
         //animation: google.maps.Animation.BOUNCE,
         map: this.current.Map,
         icon: 'img/' + folder + '/' + data.dusun.name + '.png'

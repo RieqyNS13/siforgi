@@ -1109,7 +1109,7 @@
           else folder="umkm";
           let marker = new google.maps.Marker({
                 position: new google.maps.LatLng(data.Latitude,data.Longitude),
-                //draggable: true,
+                draggable: true,
                 //animation: google.maps.Animation.BOUNCE,
                 map: this.current.Map,
                 icon:'img/'+folder+'/'+data.dusun.name+'.png',
