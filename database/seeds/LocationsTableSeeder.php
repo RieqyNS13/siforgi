@@ -36,13 +36,13 @@ class LocationsTableSeeder extends Seeder
             return $item->name=="Gelaran";
         })]->id, 'jenis_id'=>$jenises[$jenises->search(function($item, $key){
         	return $item->name=="Perangkat Desa";
-        })]->id, 'name'=>'Kepala Dusun Kenteng','Latitude'=>'-7.23387957', 'Longitude'=>'110.39298667'],
+        })]->id, 'name'=>'Kepala Dusun Gelaran','Latitude'=>'-7.23387957', 'Longitude'=>'110.39298667'],
 
               ['dusun_id'=>$dusuns[$dusuns->search(function($item, $key){
             return $item->name=="Clowok";
         })]->id, 'jenis_id'=>$jenises[$jenises->search(function($item, $key){
-        	return $item->name=="Perangkat Desa Clowok";
-        })]->id,  'name'=>'Kepala Dusun','Latitude'=>'-7.22868327', 'Longitude'=>'110.39809759'],
+        	return $item->name=="Perangkat Desa";
+        })]->id,  'name'=>'Kepala Dusun Clowok','Latitude'=>'-7.22868327', 'Longitude'=>'110.39809759'],
 
               ['dusun_id'=>$dusuns[$dusuns->search(function($item, $key){
             return $item->name=="Ampelgading";
