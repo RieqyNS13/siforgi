@@ -25,7 +25,7 @@ class HomeController extends Controller
     public function index()
     {
         $data=['dusun' => Dusun::get(), 'jenisLokasi'=>Jenis::get()];
-        $data['dusun']->prepend(['id'=>-1,'name'=>'Semua Dusun', 'Latitude'=>'-7.226762', 'Longitude'=>'110.3935235']);
+        $data['dusun']->prepend(['id'=>-1,'name'=>'Semua dusun', 'Latitude'=>'-7.226762', 'Longitude'=>'110.3935235']);
         // $a[] =
         // foreach(Dusun::get() as $asu)$a[] = $asu;
         // $data['dusun'] = $a;
