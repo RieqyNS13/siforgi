@@ -2367,8 +2367,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       if (this.dataJenisLokasi[jenis_index].is_active[lokasi_index]) {
         this.dataJenisLokasi[jenis_index].markers[lokasi_index].setAnimation(google.maps.Animation.BOUNCE);
+        this.dataJenisLokasi[jenis_index].infowindows[lokasi_index].open(this.current.Map, this.dataJenisLokasi[jenis_index].markers[lokasi_index]);
       } else {
         this.dataJenisLokasi[jenis_index].markers[lokasi_index].setAnimation(google.maps.Animation.STOP);
+        this.dataJenisLokasi[jenis_index].infowindows[lokasi_index].close();
       } //window.scrollTo(0,0);
       // this.dataJenisLokasi.forEach((item,key)=>{
       //   item.markers.forEach((item2,key2)=>{
@@ -2397,6 +2399,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.dataJenisLokasi.forEach(function (value, key) {
         value.data = [];
         value.markers = [];
+        value.infowindows = [];
         value.is_active = [];
         value.selected = [];
       });
@@ -2416,7 +2419,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               var marker = _this3.addMarker2(value2);
 
-              value.markers.push(marker);
+              value.markers.push(marker.marker);
+              value.infowindows.push(marker.infowindow);
               value.is_active.push(false);
             }
           });
@@ -2426,8 +2430,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       // console.log(this.dataJenisLokasi);
     },
     addMarker2: function addMarker2(data) {
+      var _this4 = this;
+
       var folder;
       if (data.jenis.name == "Perangkat Desa") folder = "perangkat_desa";else if (data.jenis.name == "Potensi Desa") folder = "potensi_desa";else folder = "umkm";
+      var infowindow = new google.maps.InfoWindow({
+        content: '<p><h6>' + data.name + '</h6></p>' + data.description
+      });
       var marker = new google.maps.Marker({
         position: new google.maps.LatLng(data.Latitude, data.Longitude),
         //draggable: true,
@@ -2436,9 +2445,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         icon: 'img/' + folder + '/' + data.dusun.name + '.png'
       });
       marker.addListener('click', function () {
-        console.log(marker.getPosition().lat().toFixed(8) + "\n" + marker.getPosition().lng().toFixed(8));
+        infowindow.open(_this4.current.Map, marker);
+        console.log("Latitude: " + marker.getPosition().lat().toFixed(8) + "\nLongitude:" + marker.getPosition().lng().toFixed(8));
       });
-      return marker;
+      return {
+        marker: marker,
+        infowindow: infowindow
+      };
     },
     addMarker: function addMarker(location, map) {
       // var contentString = "<div style='float:left'><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo__msLhE89yumL5XTsa3REU0vrKgsN1myKOalFUY9Z7ZYbV_e'></div><div style='float:right; padding: 10px;'><b>Title</b><br/>Here’s the fastest way to check the status of your shipment. No need to call Customer Service – our online results give you real-time, detailed progress as your shipment speeds through the DHL network.<br/> City,Country</div>";
@@ -2460,22 +2473,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       console.log(marker.getPosition());
     },
     home: function home() {
-      var _this4 = this;
+      var _this5 = this;
 
       this.content = "home";
       axios.get('/carousel').then(function (response) {
         //console.log(response.data);
-        _this4.carousels = response.data;
+        _this5.carousels = response.data;
       });
       axios.get('/dataPenduduk').then(function (response) {
-        _this4.dataPenduduk.series = [];
+        _this5.dataPenduduk.series = [];
         var labels = [];
         response.data.forEach(function (value, key) {
           labels.push(value.name);
 
-          _this4.dataPenduduk.series.push(value.total);
+          _this5.dataPenduduk.series.push(value.total);
         });
-        _this4.dataPenduduk.chartOptions = _objectSpread({}, _this4.dataPenduduk.chartOptions, {}, {
+        _this5.dataPenduduk.chartOptions = _objectSpread({}, _this5.dataPenduduk.chartOptions, {}, {
           labels: labels
         }); // console.log(this.dataPenduduk.chartOptions.labels);
       });
@@ -2489,21 +2502,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           p.push(value.total.P);
           categories.push(value.name);
         });
-        _this4.dataByGender.series = [{
+        _this5.dataByGender.series = [{
           name: 'Laki-laki',
           data: l
         }, {
           name: 'Perempuan',
           data: p
         }];
-        _this4.dataByGender.chartOptions = _objectSpread({}, _this4.dataByGender.chartOptions, {}, {
+        _this5.dataByGender.chartOptions = _objectSpread({}, _this5.dataByGender.chartOptions, {}, {
           xaxis: {
             categories: categories
           }
         }); //console.log(this.dataByGender.series)
       });
       axios.get('/dataPendudukByAgama').then(function (response) {
-        _this4.dataByAgama.series = [];
+        _this5.dataByAgama.series = [];
         var data_series = [];
         var categories = [];
         response.data.forEach(function (value, key) {
@@ -2513,11 +2526,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }); //console.log(categories);  
 
-        _this4.dataByAgama.series.push({
+        _this5.dataByAgama.series.push({
           data: data_series
         });
 
-        _this4.dataByAgama.chartOptions = _objectSpread({}, _this4.dataByAgama.chartOptions, {}, {
+        _this5.dataByAgama.chartOptions = _objectSpread({}, _this5.dataByAgama.chartOptions, {}, {
           xaxis: {
             categories: categories
           }
@@ -2537,14 +2550,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }); //series.L.pop();series.P.pop();
 
-        _this4.dataByGoldar.series = [{
+        _this5.dataByGoldar.series = [{
           name: 'Laki-laki',
           data: series.L
         }, {
           name: 'Perempuan',
           data: series.P
         }];
-        _this4.dataByGoldar.chartOptions = _objectSpread({}, _this4.dataByGoldar.chartOptions, {}, {
+        _this5.dataByGoldar.chartOptions = _objectSpread({}, _this5.dataByGoldar.chartOptions, {}, {
           xaxis: {
             categories: categories
           }
@@ -2565,8 +2578,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           categories.push(value.name);
         });
         console.log(series);
-        _this4.dataByPendidikan.series = series;
-        _this4.dataByPendidikan.chartOptions = _objectSpread({}, _this4.dataByPendidikan.chartOptions, {}, {
+        _this5.dataByPendidikan.series = series;
+        _this5.dataByPendidikan.chartOptions = _objectSpread({}, _this5.dataByPendidikan.chartOptions, {}, {
           xaxis: {
             categories: categories
           }
@@ -2587,8 +2600,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           categories.push(value.name);
         });
         console.log(series);
-        _this4.dataByUmur.series = series;
-        _this4.dataByUmur.chartOptions = _objectSpread({}, _this4.dataByUmur.chartOptions, {}, {
+        _this5.dataByUmur.series = series;
+        _this5.dataByUmur.chartOptions = _objectSpread({}, _this5.dataByUmur.chartOptions, {}, {
           xaxis: {
             categories: categories
           }
@@ -2615,7 +2628,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       // });
     },
     initMap: function initMap() {
-      var _this5 = this;
+      var _this6 = this;
 
       var element = document.getElementById("map");
       var options = {
@@ -2626,7 +2639,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var map = new google.maps.Map(element, options);
       this.current.Map = map;
       google.maps.event.addListener(map, 'click', function (event) {
-        _this5.addMarker(event.latLng, map);
+        _this6.addMarker(event.latLng, map);
 
         console.log(event.latLng);
       });

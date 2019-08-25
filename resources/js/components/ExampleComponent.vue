@@ -462,8 +462,10 @@
           this.dataJenisLokasi[jenis_index].is_active[lokasi_index]=!this.dataJenisLokasi[jenis_index].is_active[lokasi_index];
           if(this.dataJenisLokasi[jenis_index].is_active[lokasi_index]){
             this.dataJenisLokasi[jenis_index].markers[lokasi_index].setAnimation(google.maps.Animation.BOUNCE);
+            this.dataJenisLokasi[jenis_index].infowindows[lokasi_index].open(this.current.Map,   this.dataJenisLokasi[jenis_index].markers[lokasi_index]);
           }else{
             this.dataJenisLokasi[jenis_index].markers[lokasi_index].setAnimation(google.maps.Animation.STOP);
+            this.dataJenisLokasi[jenis_index].infowindows[lokasi_index].close()
           }
           //window.scrollTo(0,0);
           // this.dataJenisLokasi.forEach((item,key)=>{
@@ -489,6 +491,7 @@
             this.dataJenisLokasi.forEach((value,key)=>{
               value.data=[];
               value.markers=[];
+              value.infowindows=[];
               value.is_active=[];
               value.selected=[];
             });
@@ -506,7 +509,8 @@
                     if(value.id==value2.jenis.id){
                         value.data.push(value2)
                         let marker = this.addMarker2(value2)
-                        value.markers.push(marker);
+                        value.markers.push(marker.marker);
+                        value.infowindows.push(marker.infowindow)
                         value.is_active.push(false);
                     }
                    
@@ -524,6 +528,9 @@
           if(data.jenis.name=="Perangkat Desa")folder="perangkat_desa";
           else if(data.jenis.name=="Potensi Desa")folder="potensi_desa";
           else folder="umkm";
+          let infowindow = new google.maps.InfoWindow({
+            content: '<p><h6>'+data.name+'</h6></p>'+data.description
+          });
           let marker = new google.maps.Marker({
                 position: new google.maps.LatLng(data.Latitude,data.Longitude),
                 //draggable: true,
@@ -531,10 +538,11 @@
                 map: this.current.Map,
                 icon:'img/'+folder+'/'+data.dusun.name+'.png',
             });
-          marker.addListener('click', function() {
-            console.log(marker.getPosition().lat().toFixed(8)+"\n"+marker.getPosition().lng().toFixed(8))  
+          marker.addListener('click', ()=> {
+            infowindow.open(this.current.Map, marker);
+            console.log("Latitude: "+marker.getPosition().lat().toFixed(8)+"\nLongitude:"+marker.getPosition().lng().toFixed(8))  
           });
-          return marker;
+          return {marker:marker, infowindow:infowindow};
         },
         addMarker:function(location, map) {
             // var contentString = "<div style='float:left'><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo__msLhE89yumL5XTsa3REU0vrKgsN1myKOalFUY9Z7ZYbV_e'></div><div style='float:right; padding: 10px;'><b>Title</b><br/>Here’s the fastest way to check the status of your shipment. No need to call Customer Service – our online results give you real-time, detailed progress as your shipment speeds through the DHL network.<br/> City,Country</div>";
