@@ -30,7 +30,7 @@
        @yield('content')
     </div>
     
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWObxOTIDZIxVh0rYRFkC_8J_YIfuv7Hw"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=API_KEY"></script>
         <script src="js/map-font-icons.js"></script>
 
 
