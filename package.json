@@ -24,7 +24,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
-        "apexcharts": "^3.8.4",
+        "apexcharts": "^3.24.0",
         "google-maps-api-loader": "^1.1.1",
         "markerwithlabel": "^2.0.2",
         "vue-apexcharts": "^1.4.0",
