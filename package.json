@@ -29,6 +29,6 @@
         "markerwithlabel": "^2.0.2",
         "vue-apexcharts": "^1.4.0",
         "vue2-google-maps": "^0.10.7",
-        "vuetify": "^2.0.2"
+        "vuetify": "^2.6.10"
     }
 }
